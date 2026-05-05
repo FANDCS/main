@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="el">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FANDCS</title>
+    <link rel="icon" href="media/fandcs-icon.png" type="image/x-icon"/>
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital,wght@0,300;0,400;0,500;1,300&family=IBM+Plex+Sans:wght@300;400&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg:     #f8f7f4;
+            --fg:     #1c1c1a;
+            --dim:    #9a9690;
+            --line:   #e2e0db;
+            --accent: #2a5f8f;
+            --hover:  #f0ede8;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        html, body {
+            height: 100%;
+        }
+
+        body {
+            background: var(--bg);
+            color: var(--fg);
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 13px;
+            line-height: 1.6;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* ── LAYOUT ── */
+        .wrap {
+            max-width: 640px;
+            margin: 0 auto;
+            padding: 0 24px;
+            width: 100%;
+        }
+
+        /* ── HEADER ── */
+        header {
+            padding: 48px 0 40px;
+            border-bottom: 1px solid var(--line);
+        }
+
+        .site-name {
+            display: flex;
+            align-items: center;
+            font-size: 22px;
+            font-weight: 500;
+            letter-spacing: -0.02em;
+            color: var(--fg);
+        }
+
+        .site-name span {
+            color: var(--accent);
+        }
+
+        .site-desc {
+            margin-top: 6px;
+            color: var(--dim);
+            font-size: 12px;
+            font-weight: 300;
+            font-style: italic;
+        }
+
+        /* ── MAIN ── */
+        main {
+            flex: 1;
+            padding: 40px 0;
+        }
+
+        /* ── SECTION ── */
+        section {
+            margin-bottom: 40px;
+        }
+
+        .section-title {
+            font-size: 10px;
+            font-weight: 400;
+            letter-spacing: 0.18em;
+            text-transform: uppercase;
+            color: var(--dim);
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .section-title::after {
+            content: '';
+            flex: 1;
+            height: 1px;
+            background: var(--line);
+        }
+
+        /* ── LINK LIST ── */
+        .link-list {
+            list-style: none;
+        }
+
+        .link-list li {
+            border-bottom: 1px solid var(--line);
+        }
+        .link-list li:first-child {
+            border-top: 1px solid var(--line);
+        }
+
+        .link-list a {
+            display: flex;
+            align-items: baseline;
+            justify-content: space-between;
+            gap: 16px;
+            padding: 12px 10px;
+            text-decoration: none;
+            color: var(--fg);
+            transition: background 0.15s;
+            margin: 0 -10px;
+        }
+        .link-list a:hover {
+            background: var(--hover);
+        }
+
+        .link-list .link-name {
+            font-weight: 400;
+            font-size: 13px;
+            flex-shrink: 0;
+        }
+
+        .link-list .link-desc {
+            font-size: 11px;
+            color: var(--dim);
+            font-weight: 300;
+            text-align: right;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .link-list .link-arrow {
+            color: var(--dim);
+            font-size: 11px;
+            flex-shrink: 0;
+            transition: color 0.15s, transform 0.15s;
+        }
+        .link-list a:hover .link-arrow {
+            color: var(--accent);
+            transform: translateX(2px);
+        }
+
+        /* ── ABOUT BLOCK ── */
+        .about {
+            font-family: 'IBM Plex Sans', sans-serif;
+            font-size: 14px;
+            font-weight: 300;
+            color: var(--dim);
+            line-height: 1.8;
+        }
+
+        .about strong {
+            color: var(--fg);
+            font-weight: 400;
+        }
+
+        .about a {
+            color: var(--accent);
+            text-decoration: none;
+            border-bottom: 1px solid currentColor;
+        }
+
+        /* ── TAG ROW ── */
+        .tags {
+            display: flex; flex-wrap: wrap; gap: 6px;
+            margin-top: 16px;
+        }
+        .tag {
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 10px;
+            letter-spacing: 0.08em;
+            padding: 3px 8px;
+            border: 1px solid var(--line);
+            color: var(--dim);
+            border-radius: 2px;
+        }
+
+        /* ── FOOTER ── */
+        footer {
+            border-top: 1px solid var(--line);
+            padding: 20px 0;
+        }
+
+        .footer-inner {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .footer-left {
+            font-size: 11px;
+            color: var(--dim);
+            font-weight: 300;
+        }
+
+        .footer-right {
+            font-size: 11px;
+            color: var(--dim);
+        }
+        .footer-right a {
+            color: var(--dim);
+            text-decoration: none;
+            border-bottom: 1px solid var(--line);
+            transition: color 0.15s;
+        }
+        .footer-right a:hover { color: var(--accent); }
+
+        /* ── FADE IN ── */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(8px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+        header  { animation: fadeIn 0.4s ease both; }
+        main    { animation: fadeIn 0.4s 0.08s ease both; }
+        footer  { animation: fadeIn 0.4s 0.16s ease both; }
+
+        /* ── MOBILE ── */
+        @media (max-width: 480px) {
+            header { padding: 32px 0 28px; }
+            .link-list .link-desc { display: none; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="wrap">
+
+    <header>
+        <div class="site-name">
+            <img src="media/fandcs-icon.png" height="70" width="70"> FANDCS
+        </div>
+        <div class="site-desc">Free And No Data Collection Softwares</div>
+    </header>
+
+    <main>
+
+        <!-- ABOUT -->
+        <section>
+            <div class="section-title">σχετικά</div>
+            <div class="about">
+                Ο <strong>FANDCS</strong> είναι ένας προσωπικός οργανισμός στο GitHub
+                που φιλοξενεί apps και projects που είναι <strong>δωρεάν</strong>
+                και δεν συλλέγουν προσωπικά δεδομένα.
+                Αυτή η σελίδα λειτουργεί ως αρχική για ανακατεύθυνση στα υπόλοιπα projects.
+                <i>Τα projects που φιλοξενούνται δεν είναι πάντα ιδιοκτησία του οργανισμού.</i>
+            </div>
+            <div class="tags">
+                <span class="tag">open-source</span>
+                <span class="tag">no-tracking</span>
+                <span class="tag">free</span>
+                <span class="tag">github-pages</span>
+            </div>
+        </section>
+
+        <!-- PROJECTS -->
+        <section>
+            <div class="section-title">projects</div>
+            <ul class="link-list">
+                <li>
+                    <a href="https://fandcs.github.io/main/History_Video_and_Lessons.html" target="_blank">
+                        <span class="link-name">Βίντεο και Μαθήματα Ιστορίας</span>
+                        <span class="link-desc">Τεχνική υποστήριξη, κατασκευή website και host</span>
+                        <span class="link-arrow">↗</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="https://github.com/FANDCS" target="_blank">
+                        <span class="link-name">GitHub Organization</span>
+                        <span class="link-desc">Όλα τα repositories</span>
+                        <span class="link-arrow">↗</span>
+                    </a>
+                </li>
+            </ul>
+        </section>
+
+        <!-- LINKS -->
+        <section>
+            <div class="section-title">σύνδεσμοι</div>
+            <ul class="link-list">
+                <li>
+                    <a href="mailto:androi.5creator.5@gmail.com">
+                        <span class="link-name">androi.5creator.5@gmail.com</span>
+                        <span class="link-desc">Email Υποστήριξης</span>
+                        <span class="link-arrow">↗</span>
+                    </a>
+                </li>
+<!--            <li>
+                    <a href="https://fandcs.github.io/History-of-E-Class-Greek" target="_blank">
+                        <span class="link-name">GitHub Pages — Storyline Apps</span>
+                        <span class="link-desc">fandcs.github.io</span>
+                        <span class="link-arrow">↗</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="https://github.com/FANDCS/History-of-E-Class-Greek" target="_blank">
+                        <span class="link-name">Repository: History of E Class</span>
+                        <span class="link-desc">github.com/FANDCS</span>
+                        <span class="link-arrow">↗</span>
+                    </a>
+                </li>
+            </ul> -->
+        </section>
+
+    </main>
+
+    <footer>
+        <div class="footer-inner">
+            <span class="footer-left">© 2026 FANDCS · Τελευταία ενημέρωση: 5/4/2026>
+            <span class="footer-right">
+        <a href="https://github.com/FANDCS">github.com/FANDCS</a>
+      </span>
+        </div>
+    </footer>
+
+</div>
+
+</body>
+</html>
