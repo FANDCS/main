@@ -332,4 +332,338 @@
     </div>
 
 </body>
+</html><!DOCTYPE html>
+<html lang="el">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>404 — FANDCS</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@500;700&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet" />
+    
+    <link rel="icon" href="https://raw.githubusercontent.com/FANDCS/main/refs/heads/main/media/fandcs-icon.png" type="image/x-icon">
+
+    <style>
+        *, *::before, *::after { 
+            margin: 0; 
+            padding: 0; 
+            box-sizing: border-box; 
+        }
+        
+        :root {
+            --bg: #f8fafc;
+            --surface: #ffffff;
+            --surface-variant: #edf2f7;
+            --ink-primary: #1e293b;
+            --ink-secondary: #475569;
+            --ink-muted: #94a3b8;
+            --google-blue: #1a73e8;
+            
+            --g-blue: rgba(26, 115, 232, 0.1);
+            --g-red: rgba(234, 67, 53, 0.1);
+            --g-yellow: rgba(251, 188, 5, 0.12);
+            --g-green: rgba(52, 168, 83, 0.1);
+            
+            --shadow-sm: 0 2px 4px rgb(0 0 0 / 0.02), 0 1px 2px rgb(0 0 0 / 0.04);
+            --shadow-md: 0 12px 24px -4px rgb(0 0 0 / 0.04), 0 4px 8px -2px rgb(0 0 0 / 0.03);
+        }
+        
+        html, body { 
+            min-height: 100%; 
+            background: var(--bg); 
+        }
+        
+        body {
+            color: var(--ink-primary);
+            font-family: 'Nunito', sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100svh;
+            padding: 1.5rem;
+            position: relative;
+            overflow-x: hidden;
+        }
+        
+        /* ── ΠΑΙΧΝΙΔΙΑΡΙΚΑ ANIMATIONS ΚΙΝΗΣΗΣ ── */
+        @keyframes elasticFloat1 {
+            0%, 100% { transform: translateY(0) scale(1); }
+            50% { transform: translateY(-25px) scale(1.08) rotate(5deg); }
+        }
+        @keyframes elasticFloat2 {
+            0%, 100% { transform: translateX(0) scale(1) rotate(-15deg); }
+            50% { transform: translateX(25px) translateY(10px) scale(0.95) rotate(-5deg); }
+        }
+        @keyframes elasticFloat3 {
+            0%, 100% { transform: translateY(0) rotate(25deg) scale(1); }
+            50% { transform: translateY(-15px) translateX(-15px) rotate(40deg) scale(1.1); }
+        }
+        @keyframes elasticFloat4 {
+            0%, 100% { transform: translateY(0) rotate(-10deg); }
+            50% { transform: translateY(20px) translateX(15px) rotate(-25deg); }
+        }
+        @keyframes elasticFloat5 {
+            0%, 100% { transform: translateX(0) rotate(-20deg) scale(1); }
+            50% { transform: translateX(-25px) translateY(-10px) rotate(-10deg) scale(1.05); }
+        }
+
+        /* ΜΑΖΕΜΕΝΟ & ΚΟΜΨΟ: Ήπιο Drifting της εικόνας */
+        @keyframes subtleDriftingImage {
+            0%, 100% { transform: translateY(0) translateX(0) rotate(0deg); }
+            25% { transform: translateY(-4px) translateX(2px) rotate(1deg); }
+            50% { transform: translateY(1px) translateX(-2px) rotate(-0.5deg); }
+            75% { transform: translateY(3px) translateX(1px) rotate(0.5deg); }
+        }
+
+        /* ── ΤΑ 6 ΒΑΣΙΚΑ ΓΕΩΜΕΤΡΙΚΑ ΣΧΗΜΑΤΑ ── */
+        .geo-shape { 
+            position: absolute; 
+            z-index: 0; 
+            pointer-events: none; 
+        }
+        
+        .sh-circle-blue { 
+            top: 8%; left: -20px; 
+            width: 110px; height: 110px; 
+            background: var(--g-blue); 
+            border-radius: 50%; 
+            animation: elasticFloat1 5s ease-in-out infinite;
+        }
+        
+        .sh-triangle-red { 
+            top: 45%; left: -40px; 
+            width: 0; height: 0; 
+            border-left: 50px solid transparent; 
+            border-right: 50px solid transparent; 
+            border-bottom: 86px solid var(--g-red); 
+            transform: rotate(-15deg);
+            animation: elasticFloat2 6.5s ease-in-out infinite;
+        }
+        
+        .sh-square-yellow { 
+            bottom: 8%; left: -10px; 
+            width: 90px; height: 90px; 
+            background: var(--g-yellow); 
+            border-radius: 20px; 
+            transform: rotate(25deg); 
+            animation: elasticFloat3 7s ease-in-out infinite;
+        }
+        
+        .sh-pill-green { 
+            top: 12%; right: -30px; 
+            width: 140px; height: 70px; 
+            background: var(--g-green); 
+            border-radius: 100px; 
+            transform: rotate(-20deg); 
+            animation: elasticFloat5 6s ease-in-out infinite;
+        }
+        
+        .sh-circle-yellow { 
+            top: 40%; right: -20px; 
+            width: 60px; height: 60px; 
+            background: var(--g-yellow); 
+            border-radius: 50%; 
+            animation: elasticFloat1 4.5s ease-in-out infinite;
+        }
+        
+        .sh-square-blue { 
+            bottom: 15%; right: -30px; 
+            width: 100px; height: 100px; 
+            background: var(--g-blue); 
+            border-radius: 24px; 
+            transform: rotate(-10deg); 
+            animation: elasticFloat4 5.5s ease-in-out infinite;
+        }
+        
+        /* ── ΚΕΝΤΡΙΚΟ ΠΛΑΙΣΙΟ ΜΕ EΛΑΣΤΙΚΟ INTRO ── */
+        .container {
+            max-width: 430px;
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            position: relative;
+            z-index: 1;
+            background: rgba(255, 255, 255, 0.92);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            padding: 2.5rem 1.75rem;
+            border-radius: 32px;
+            box-shadow: var(--shadow-md);
+            border: 1px solid rgba(255, 255, 255, 0.7);
+            animation: playfulZoomIntro 0.85s cubic-bezier(0.34, 1.6, 0.64, 1) both;
+        }
+
+        @keyframes playfulZoomIntro {
+            from { opacity: 0; transform: scale(0.6) translateY(20px); }
+            to { opacity: 1; transform: scale(1) translateY(0); }
+        }
+        
+        /* ── ΕΙΚΟΝΙΔΙΟ 404 ΜΕ ΗΠΙΑ ΚΙΝΗΣΗ ── */
+        .img-container { 
+            margin-bottom: 1.2rem; 
+            animation: subtleDriftingImage 6s ease-in-out infinite;
+        }
+        .img-container img {
+            width: 155px;
+            height: 155px;
+            object-fit: contain;
+        }
+        
+        /* ── ΤΥΠΟΓΡΑΦΙΑ ── */
+        .code-404 {
+            font-family: 'Google Sans', sans-serif;
+            font-size: 0.85rem;
+            font-weight: 700;
+            letter-spacing: 0.12em;
+            color: var(--google-blue);
+            margin-bottom: 0.3rem;
+            text-transform: uppercase;
+        }
+        
+        h1 {
+            font-family: 'Google Sans', sans-serif;
+            font-size: 1.9rem;
+            font-weight: 700;
+            line-height: 1.25;
+            text-align: center;
+            color: var(--ink-primary);
+            margin-bottom: 0.6rem;
+        }
+        
+        .desc {
+            font-size: 0.92rem;
+            font-weight: 500;
+            line-height: 1.6;
+            color: var(--ink-secondary);
+            text-align: center;
+            max-width: 330px;
+            margin-bottom: 2rem;
+        }
+        
+        /* ── ΚΟΥΜΠΙ (PREMIUM HOVER) ── */
+        .btn-action { 
+            width: 100%; 
+        }
+        
+        .btn-home {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            padding: 0.95rem 1.5rem;
+            text-decoration: none;
+            background: var(--ink-primary);
+            color: #ffffff;
+            font-family: 'Google Sans', sans-serif;
+            font-size: 0.95rem;
+            font-weight: 700;
+            border-radius: 20px;
+            box-shadow: var(--shadow-sm);
+            transition: transform 0.25s cubic-bezier(0.2, 0.8, 0.2, 1), background-color 0.2s ease, box-shadow 0.25s ease;
+        }
+        
+        .btn-home:hover { 
+            transform: scale(1.03); 
+            background: #2d3748; 
+            box-shadow: var(--shadow-md); 
+        }
+        
+        .btn-home:active { 
+            transform: scale(0.97); 
+        }
+        
+        /* ── FOOTER ── */
+        footer { 
+            margin-top: 2rem; 
+            width: 100%;
+        }
+
+        footer hr {
+            border: 0;
+            height: 1px;
+            background: var(--surface-variant);
+            margin-bottom: 0.75rem;
+        }
+
+        .footer-inner {
+            display: flex;
+            flex-direction: column;
+            gap: 0.3rem;
+        }
+        
+        footer p {
+            font-size: 0.72rem;
+            font-weight: 600;
+            color: var(--ink-muted);
+            text-align: center;
+        }
+        
+        footer a { 
+            color: var(--ink-secondary); 
+            text-decoration: none; 
+        }
+        footer a:hover {
+            text-decoration: underline;
+        }
+        
+        @media (min-width: 768px) {
+            body { padding: 2.5rem; }
+            .container { padding: 2.5rem 2rem; border-radius: 36px; }
+            .sh-circle-blue { left: calc(50% - 340px); top: 15%; width: 140px; height: 140px; }
+            .sh-triangle-red { left: calc(50% - 320px); top: 50%; }
+            .sh-square-yellow { left: calc(50% - 300px); bottom: 15%; width: 110px; height: 110px; }
+            .sh-pill-green { right: calc(50% - 360px); top: 18%; width: 160px; height: 80px; }
+            .sh-circle-yellow { right: calc(50% - 300px); top: 48%; width: 80px; height: 80px; }
+            .sh-square-blue { right: calc(50% - 330px); bottom: 12%; width: 120px; height: 120px; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="geo-shape sh-circle-blue"></div>
+    <div class="geo-shape sh-triangle-red"></div>
+    <div class="geo-shape sh-square-yellow"></div>
+    
+    <div class="geo-shape sh-pill-green"></div>
+    <div class="geo-shape sh-circle-yellow"></div>
+    <div class="geo-shape sh-square-blue"></div>
+
+    <div class="container">
+        <div class="img-container">
+            <img src="https://raw.githubusercontent.com/FANDCS/main/refs/heads/main/media/404-error.png" alt="404_error_img">
+        </div>
+        
+        <p class="code-404">Σφάλμα 404</p>
+        <h1>Η σελίδα δεν βρέθηκε</h1>
+        
+        <p class="desc">
+            Το URL δεν αντιστοιχεί σε κάποια ιστοσελίδα ή αρχείο. Δηλαδή δεν βρέθηκε αυτό που ψάχνεις.
+        </p>
+        
+        <div class="btn-action">
+            <a href="https://fandcs.github.io/main/" class="btn-home">
+                Μετάβαση στην αρχική
+            </a>
+        </div>
+        
+        <footer>
+            <hr>
+            <div class="footer-inner">
+                <p>
+                    <span class="footer-left">GitHub Οργανισμός</span>
+                    <a href="https://github.com/FANDCS" target="_blank" rel="noopener">FANDCS</a>
+                </p>
+                <p>
+                    Εικόνες από flaticon designer
+                    <a href="https://www.flaticon.com/authors/muhammad-ali" target="_blank" rel="noopener">Muhammad Ali</a>
+                </p>
+            </div>
+        </footer>
+    </div>
+
+</body>
 </html>
