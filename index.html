@@ -289,17 +289,13 @@
         }
 
         .brand-icon {
-            width: 64px;
-            height: 64px;
-            border-radius: 20px;
-            background: linear-gradient(135deg, #1a73e8 0%, #4285f4 100%);
+            width: 40px;
+            height: 40px;
+            background: transparent; /* Κάνει το φόντο διάφανο */
             display: flex;
             align-items: center;
             justify-content: center;
-            box-shadow: 0 8px 24px rgba(26, 115, 232, 0.25);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
         }
-
         .brand:hover .brand-icon {
             transform: scale(1.05) rotate(-3deg);
             box-shadow: 0 12px 32px rgba(26, 115, 232, 0.35);
