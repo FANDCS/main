@@ -5,37 +5,266 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>FANDCS</title>
     <link rel="icon" href="media/fandcs-icon.png" type="image/x-icon"/>
-    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital,wght@0,300;0,400;0,500;1,300&family=IBM+Plex+Sans:wght@300;400&display=swap" rel="stylesheet">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500;700&family=Nunito:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
     <style>
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
         :root {
-            --bg:     #f8f7f4;
-            --fg:     #1c1c1a;
-            --dim:    #9a9690;
-            --line:   #e2e0db;
-            --accent: #2a5f8f;
-            --hover:  #f0ede8;
+            --bg: #f8fafc;
+            --surface: rgba(255, 255, 255, 0.82);
+            --ink-primary: #1e293b;
+            --ink-secondary: #475569;
+            --ink-muted: #94a3b8;
+            --accent: #1a73e8;
+            --accent-soft: rgba(26, 115, 232, 0.08);
+            --line: rgba(148, 163, 184, 0.25);
+
+            --shadow-sm: 0 2px 8px rgba(0,0,0,0.04), 0 1px 3px rgba(0,0,0,0.03);
+            --shadow-md: 0 12px 32px -8px rgba(0,0,0,0.08), 0 4px 12px -2px rgba(0,0,0,0.04);
         }
 
-        * { box-sizing: border-box; margin: 0; padding: 0; }
-
         html, body {
-            height: 100%;
+            min-height: 100%;
+            background: var(--bg);
         }
 
         body {
-            background: var(--bg);
-            color: var(--fg);
-            font-family: 'IBM Plex Mono', monospace;
-            font-size: 13px;
-            line-height: 1.6;
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
+            color: var(--ink-primary);
+            font-family: 'Nunito', sans-serif;
+            font-size: 15px;
+            line-height: 1.7;
+            position: relative;
+            overflow-x: hidden;
         }
 
-        /* ── LAYOUT ── */
+        /* ════════════════════════════════════════
+           LAYER 1: ORGANIC BLOBS (deep background)
+           ════════════════════════════════════════ */
+        .blob {
+            position: fixed;
+            z-index: 0;
+            pointer-events: none;
+            filter: blur(70px);
+            opacity: 0.4;
+        }
+
+        @keyframes drift1 {
+            0%, 100% { transform: translate(0, 0) scale(1) rotate(0deg); }
+            33% { transform: translate(40px, -30px) scale(1.08) rotate(8deg); }
+            66% { transform: translate(-20px, 20px) scale(0.95) rotate(-5deg); }
+        }
+        @keyframes drift2 {
+            0%, 100% { transform: translate(0, 0) scale(1) rotate(0deg); }
+            33% { transform: translate(-35px, 25px) scale(1.05) rotate(-10deg); }
+            66% { transform: translate(25px, -15px) scale(0.92) rotate(6deg); }
+        }
+        @keyframes drift3 {
+            0%, 100% { transform: translate(0, 0) scale(1); }
+            50% { transform: translate(15px, -40px) scale(1.12) rotate(12deg); }
+        }
+        @keyframes drift4 {
+            0%, 100% { transform: translate(0, 0) scale(1) rotate(0deg); }
+            40% { transform: translate(-30px, -20px) scale(1.06) rotate(-8deg); }
+            80% { transform: translate(20px, 30px) scale(0.97) rotate(5deg); }
+        }
+        @keyframes drift5 {
+            0%, 100% { transform: translate(0, 0) scale(1); }
+            50% { transform: translate(-25px, 35px) scale(1.08) rotate(-12deg); }
+        }
+
+        .blob-1 {
+            top: -12%; left: -15%;
+            width: 550px; height: 550px;
+            background: radial-gradient(circle at 30% 30%, rgba(45, 212, 191, 0.45), rgba(56, 189, 248, 0.15));
+            border-radius: 60% 40% 50% 50% / 50% 50% 40% 60%;
+            animation: drift1 20s ease-in-out infinite;
+        }
+        .blob-2 {
+            bottom: -18%; right: -15%;
+            width: 650px; height: 600px;
+            background: radial-gradient(circle at 70% 70%, rgba(251, 146, 60, 0.3), rgba(244, 114, 182, 0.12));
+            border-radius: 45% 55% 60% 40% / 55% 45% 55% 45%;
+            animation: drift2 24s ease-in-out infinite;
+        }
+        .blob-3 {
+            top: 45%; left: -10%;
+            width: 380px; height: 380px;
+            background: radial-gradient(circle at 50% 50%, rgba(167, 139, 250, 0.28), rgba(139, 92, 246, 0.08));
+            border-radius: 55% 45% 40% 60% / 45% 55% 50% 50%;
+            animation: drift3 17s ease-in-out infinite;
+        }
+        .blob-4 {
+            top: 2%; right: -8%;
+            width: 420px; height: 420px;
+            background: radial-gradient(circle at 40% 60%, rgba(163, 230, 53, 0.22), rgba(132, 204, 22, 0.06));
+            border-radius: 50% 50% 45% 55% / 55% 45% 55% 45%;
+            animation: drift4 21s ease-in-out infinite;
+        }
+        .blob-5 {
+            bottom: 8%; left: 20%;
+            width: 320px; height: 320px;
+            background: radial-gradient(circle at 60% 40%, rgba(244, 63, 94, 0.15), rgba(225, 29, 72, 0.05));
+            border-radius: 45% 55% 55% 45% / 50% 45% 55% 50%;
+            animation: drift5 18s ease-in-out infinite;
+        }
+
+        /* ════════════════════════════════════════
+           LAYER 2: MATERIAL SHAPES (mid layer)
+           — Google Android style, new positions,
+           modern gradient styling
+           ════════════════════════════════════════ */
+        .mat-shape {
+            position: fixed;
+            z-index: 1;
+            pointer-events: none;
+        }
+
+        @keyframes matFloat1 {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-18px) rotate(6deg); }
+        }
+        @keyframes matFloat2 {
+            0%, 100% { transform: translateX(0) rotate(-12deg); }
+            50% { transform: translateX(15px) translateY(8px) rotate(-4deg); }
+        }
+        @keyframes matFloat3 {
+            0%, 100% { transform: translateY(0) rotate(18deg); }
+            50% { transform: translateY(-12px) translateX(-10px) rotate(32deg); }
+        }
+        @keyframes matFloat4 {
+            0%, 100% { transform: translateY(0) rotate(-8deg); }
+            50% { transform: translateY(14px) translateX(10px) rotate(-18deg); }
+        }
+        @keyframes matFloat5 {
+            0%, 100% { transform: translateX(0) rotate(-16deg); }
+            50% { transform: translateX(-18px) translateY(-8px) rotate(-6deg); }
+        }
+        @keyframes matFloat6 {
+            0%, 100% { transform: translateY(0) scale(1); }
+            50% { transform: translateY(10px) scale(1.06) rotate(-4deg); }
+        }
+
+        /* Circle — top-left area but INWARD, not edge */
+        .mat-circle-blue {
+            top: 12%; left: 6%;
+            width: 90px; height: 90px;
+            background: linear-gradient(135deg, rgba(66, 133, 244, 0.18), rgba(26, 115, 232, 0.08));
+            border: 2px solid rgba(66, 133, 244, 0.25);
+            border-radius: 50%;
+            animation: matFloat1 6s ease-in-out infinite;
+        }
+
+        /* Triangle — mid-left, lower than before */
+        .mat-triangle-red {
+            top: 58%; left: 3%;
+            width: 0; height: 0;
+            border-left: 42px solid transparent;
+            border-right: 42px solid transparent;
+            border-bottom: 72px solid rgba(234, 67, 53, 0.15);
+            filter: drop-shadow(0 0 0 2px rgba(234, 67, 53, 0.2));
+            transform: rotate(-12deg);
+            animation: matFloat2 7.5s ease-in-out infinite;
+        }
+
+        /* Rounded square — bottom-left, more inward */
+        .mat-square-yellow {
+            bottom: 18%; left: 10%;
+            width: 75px; height: 75px;
+            background: linear-gradient(135deg, rgba(251, 188, 5, 0.16), rgba(251, 188, 5, 0.06));
+            border: 2px solid rgba(251, 188, 5, 0.22);
+            border-radius: 18px;
+            transform: rotate(22deg);
+            animation: matFloat3 8s ease-in-out infinite;
+        }
+
+        /* Pill — top-right, more inward */
+        .mat-pill-green {
+            top: 16%; right: 6%;
+            width: 120px; height: 55px;
+            background: linear-gradient(135deg, rgba(52, 168, 83, 0.16), rgba(52, 168, 83, 0.06));
+            border: 2px solid rgba(52, 168, 83, 0.22);
+            border-radius: 100px;
+            transform: rotate(-18deg);
+            animation: matFloat5 6.5s ease-in-out infinite;
+        }
+
+        /* Small circle — mid-right, higher than before */
+        .mat-circle-yellow {
+            top: 48%; right: 5%;
+            width: 50px; height: 50px;
+            background: linear-gradient(135deg, rgba(251, 188, 5, 0.2), rgba(251, 188, 5, 0.08));
+            border: 2px solid rgba(251, 188, 5, 0.25);
+            border-radius: 50%;
+            animation: matFloat1 5s ease-in-out infinite;
+        }
+
+        /* Square — bottom-right, more inward */
+        .mat-square-blue {
+            bottom: 22%; right: 8%;
+            width: 85px; height: 85px;
+            background: linear-gradient(135deg, rgba(66, 133, 244, 0.14), rgba(66, 133, 244, 0.05));
+            border: 2px solid rgba(66, 133, 244, 0.2);
+            border-radius: 20px;
+            transform: rotate(-8deg);
+            animation: matFloat4 7s ease-in-out infinite;
+        }
+
+        /* Extra: small pill — center-left area */
+        .mat-pill-blue {
+            top: 32%; left: 2%;
+            width: 70px; height: 28px;
+            background: linear-gradient(90deg, rgba(26, 115, 232, 0.12), rgba(66, 133, 244, 0.06));
+            border: 1.5px solid rgba(26, 115, 232, 0.18);
+            border-radius: 100px;
+            transform: rotate(25deg);
+            animation: matFloat6 5.5s ease-in-out infinite;
+        }
+
+        /* Extra: small circle — center-right area */
+        .mat-circle-green {
+            top: 72%; right: 12%;
+            width: 35px; height: 35px;
+            background: linear-gradient(135deg, rgba(52, 168, 83, 0.18), rgba(52, 168, 83, 0.06));
+            border: 2px solid rgba(52, 168, 83, 0.2);
+            border-radius: 50%;
+            animation: matFloat2 4.5s ease-in-out infinite;
+        }
+
+        /* ════════════════════════════════════════
+           LAYER 3: ACCENT DOTS (foreground)
+           ════════════════════════════════════════ */
+        .dot {
+            position: fixed;
+            z-index: 2;
+            pointer-events: none;
+            border-radius: 50%;
+            opacity: 0.35;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); opacity: 0.35; }
+            50% { transform: scale(1.3); opacity: 0.12; }
+        }
+
+        .dot-1 { top: 22%; left: 14%; width: 10px; height: 10px; background: #2dd4bf; animation: pulse 4s ease-in-out infinite; }
+        .dot-2 { top: 68%; right: 14%; width: 7px; height: 7px; background: #fb923c; animation: pulse 5s ease-in-out infinite 1s; }
+        .dot-3 { top: 38%; right: 22%; width: 9px; height: 9px; background: #a78bfa; animation: pulse 4.5s ease-in-out infinite 0.5s; }
+        .dot-4 { bottom: 30%; left: 28%; width: 5px; height: 5px; background: #f43f5e; animation: pulse 3.5s ease-in-out infinite 1.5s; }
+        .dot-5 { top: 10%; right: 25%; width: 12px; height: 12px; background: #a3e635; animation: pulse 5.5s ease-in-out infinite 2s; }
+        .dot-6 { top: 52%; left: 18%; width: 6px; height: 6px; background: #38bdf8; animation: pulse 4s ease-in-out infinite 0.8s; }
+        .dot-7 { bottom: 12%; right: 20%; width: 8px; height: 8px; background: #fbbf24; animation: pulse 5s ease-in-out infinite 1.2s; }
+
+        /* ════════════════════════════════════════
+           CONTENT
+           ════════════════════════════════════════ */
         .wrap {
-            max-width: 640px;
+            position: relative;
+            z-index: 10;
+            max-width: 720px;
             margin: 0 auto;
             padding: 0 24px;
             width: 100%;
@@ -43,296 +272,432 @@
 
         /* ── HEADER ── */
         header {
-            padding: 48px 0 40px;
-            border-bottom: 1px solid var(--line);
+            padding: 56px 0 40px;
+            animation: fadeInDown 0.7s ease both;
         }
 
-        .site-name {
+        @keyframes fadeInDown {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .brand {
+            display: inline-flex;
+            align-items: center;
+            gap: 16px;
+            text-decoration: none;
+        }
+
+        .brand-icon {
+            width: 64px;
+            height: 64px;
+            border-radius: 20px;
+            background: linear-gradient(135deg, #1a73e8 0%, #4285f4 100%);
             display: flex;
             align-items: center;
-            font-size: 22px;
-            font-weight: 500;
-            letter-spacing: -0.02em;
-            color: var(--fg);
+            justify-content: center;
+            box-shadow: 0 8px 24px rgba(26, 115, 232, 0.25);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
         }
 
-        .site-name span {
-            color: var(--accent);
+        .brand:hover .brand-icon {
+            transform: scale(1.05) rotate(-3deg);
+            box-shadow: 0 12px 32px rgba(26, 115, 232, 0.35);
         }
 
-        .site-desc {
-            margin-top: 6px;
-            color: var(--dim);
+        .brand-icon img {
+            width: 40px;
+            height: 40px;
+            object-fit: contain;
+            filter: brightness(0) invert(1);
+        }
+
+        .brand-text h1 {
+            font-family: 'Google Sans', sans-serif;
+            font-size: 32px;
+            font-weight: 700;
+            letter-spacing: -0.03em;
+            color: var(--ink-primary);
+            line-height: 1.1;
+        }
+
+        .brand-text span {
+            display: block;
+            font-family: 'Nunito', sans-serif;
             font-size: 12px;
-            font-weight: 300;
-            font-style: italic;
-        }
-
-        /* ── MAIN ── */
-        main {
-            flex: 1;
-            padding: 40px 0;
-        }
-
-        /* ── SECTION ── */
-        section {
-            margin-bottom: 40px;
-        }
-
-        .section-title {
-            font-size: 10px;
-            font-weight: 400;
-            letter-spacing: 0.18em;
+            font-weight: 600;
+            letter-spacing: 0.08em;
             text-transform: uppercase;
-            color: var(--dim);
-            margin-bottom: 16px;
+            color: var(--accent);
+            margin-top: 4px;
+        }
+
+        /* ── GLASS CARDS ── */
+        .card {
+            background: var(--surface);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.65);
+            border-radius: 24px;
+            padding: 32px;
+            margin-bottom: 24px;
+            box-shadow: var(--shadow-sm);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            animation: fadeInUp 0.6s ease both;
+        }
+
+        .card:hover {
+            box-shadow: var(--shadow-md);
+        }
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(16px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .card:nth-child(1) { animation-delay: 0.1s; }
+        .card:nth-child(2) { animation-delay: 0.2s; }
+        .card:nth-child(3) { animation-delay: 0.3s; }
+
+        /* ── SECTION TITLES ── */
+        .section-title {
+            font-family: 'Google Sans', sans-serif;
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            color: var(--accent);
+            margin-bottom: 20px;
             display: flex;
             align-items: center;
             gap: 12px;
         }
+
         .section-title::after {
             content: '';
             flex: 1;
             height: 1px;
-            background: var(--line);
+            background: linear-gradient(90deg, var(--line), transparent);
         }
+
+        /* ── ABOUT ── */
+        .about {
+            font-size: 15px;
+            font-weight: 400;
+            color: var(--ink-secondary);
+            line-height: 1.8;
+        }
+
+        .about strong {
+            color: var(--ink-primary);
+            font-weight: 700;
+        }
+
+        .about em {
+            display: block;
+            margin-top: 12px;
+            font-size: 13px;
+            color: var(--ink-muted);
+            font-style: italic;
+        }
+
+        /* ── TAGS ── */
+        .tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: 20px;
+        }
+
+        .tag {
+            font-family: 'Google Sans', sans-serif;
+            font-size: 11px;
+            font-weight: 600;
+            letter-spacing: 0.04em;
+            padding: 6px 14px;
+            border-radius: 100px;
+            background: var(--accent-soft);
+            color: var(--accent);
+            border: 1px solid rgba(26, 115, 232, 0.12);
+            transition: transform 0.2s ease, background 0.2s ease;
+            cursor: default;
+        }
+
+        .tag:hover {
+            transform: translateY(-2px);
+            background: rgba(26, 115, 232, 0.14);
+        }
+
+        .tag:nth-child(2) { background: rgba(45, 212, 191, 0.1); color: #0d9488; border-color: rgba(45, 212, 191, 0.15); }
+        .tag:nth-child(2):hover { background: rgba(45, 212, 191, 0.18); }
+        .tag:nth-child(3) { background: rgba(52, 168, 83, 0.08); color: #188038; border-color: rgba(52, 168, 83, 0.12); }
+        .tag:nth-child(3):hover { background: rgba(52, 168, 83, 0.14); }
+        .tag:nth-child(4) { background: rgba(251, 146, 60, 0.1); color: #c2410c; border-color: rgba(251, 146, 60, 0.15); }
+        .tag:nth-child(4):hover { background: rgba(251, 146, 60, 0.18); }
 
         /* ── LINK LIST ── */
         .link-list {
             list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
         }
 
         .link-list li {
-            border-bottom: 1px solid var(--line);
+            border-radius: 16px;
+            transition: transform 0.2s ease, background 0.2s ease;
         }
-        .link-list li:first-child {
-            border-top: 1px solid var(--line);
+
+        .link-list li:hover {
+            background: rgba(26, 115, 232, 0.04);
+            transform: translateX(4px);
         }
 
         .link-list a {
             display: flex;
-            align-items: baseline;
+            align-items: center;
             justify-content: space-between;
             gap: 16px;
-            padding: 12px 10px;
+            padding: 14px 16px;
             text-decoration: none;
-            color: var(--fg);
-            transition: background 0.15s;
-            margin: 0 -10px;
+            color: var(--ink-primary);
+            border-radius: 16px;
+            border: 1px solid transparent;
+            transition: border-color 0.2s ease, box-shadow 0.2s ease;
         }
+
         .link-list a:hover {
-            background: var(--hover);
+            border-color: var(--line);
+            box-shadow: var(--shadow-sm);
         }
 
-        .link-list .link-name {
+        .link-main {
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+            min-width: 0;
+        }
+
+        .link-name {
+            font-family: 'Google Sans', sans-serif;
+            font-size: 14px;
+            font-weight: 500;
+            color: var(--ink-primary);
+        }
+
+        .link-desc {
+            font-size: 12px;
+            color: var(--ink-muted);
             font-weight: 400;
-            font-size: 13px;
-            flex-shrink: 0;
-        }
-
-        .link-list .link-desc {
-            font-size: 11px;
-            color: var(--dim);
-            font-weight: 300;
-            text-align: right;
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
         }
 
-        .link-list .link-arrow {
-            color: var(--dim);
-            font-size: 11px;
-            flex-shrink: 0;
-            transition: color 0.15s, transform 0.15s;
-        }
-        .link-list a:hover .link-arrow {
+        .link-arrow {
+            width: 32px;
+            height: 32px;
+            border-radius: 10px;
+            background: var(--accent-soft);
             color: var(--accent);
-            transform: translateX(2px);
-        }
-
-        /* ── ABOUT BLOCK ── */
-        .about {
-            font-family: 'IBM Plex Sans', sans-serif;
+            display: flex;
+            align-items: center;
+            justify-content: center;
             font-size: 14px;
-            font-weight: 300;
-            color: var(--dim);
-            line-height: 1.8;
+            flex-shrink: 0;
+            transition: transform 0.25s cubic-bezier(0.34, 1.6, 0.64, 1), background 0.2s ease;
         }
 
-        .about strong {
-            color: var(--fg);
-            font-weight: 400;
-        }
-
-        .about a {
-            color: var(--accent);
-            text-decoration: none;
-            border-bottom: 1px solid currentColor;
-        }
-
-        /* ── TAG ROW ── */
-        .tags {
-            display: flex; flex-wrap: wrap; gap: 6px;
-            margin-top: 16px;
-        }
-        .tag {
-            font-family: 'IBM Plex Mono', monospace;
-            font-size: 10px;
-            letter-spacing: 0.08em;
-            padding: 3px 8px;
-            border: 1px solid var(--line);
-            color: var(--dim);
-            border-radius: 2px;
+        .link-list a:hover .link-arrow {
+            background: var(--accent);
+            color: #fff;
+            transform: translateX(3px) scale(1.1);
         }
 
         /* ── FOOTER ── */
         footer {
-            border-top: 1px solid var(--line);
-            padding: 20px 0;
+            padding: 32px 0 48px;
+            animation: fadeInUp 0.6s 0.4s ease both;
         }
 
-        .footer-inner {
+        .footer-card {
+            background: var(--surface);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.65);
+            border-radius: 20px;
+            padding: 20px 28px;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            gap: 12px;
+            gap: 16px;
             flex-wrap: wrap;
+            box-shadow: var(--shadow-sm);
         }
 
         .footer-left {
-            font-size: 11px;
-            color: var(--dim);
-            font-weight: 300;
+            font-size: 12px;
+            color: var(--ink-muted);
+            font-weight: 500;
         }
 
-        .footer-right {
-            font-size: 11px;
-            color: var(--dim);
-        }
         .footer-right a {
-            color: var(--dim);
+            font-family: 'Google Sans', sans-serif;
+            font-size: 12px;
+            font-weight: 600;
             text-decoration: none;
-            border-bottom: 1px solid var(--line);
-            transition: color 0.15s;
+            padding: 8px 16px;
+            border-radius: 12px;
+            background: var(--accent-soft);
+            color: var(--accent);
+            transition: transform 0.2s ease, background 0.2s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
         }
-        .footer-right a:hover { color: var(--accent); }
 
-        /* ── FADE IN ── */
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(8px); }
-            to   { opacity: 1; transform: translateY(0); }
+        .footer-right a:hover {
+            transform: translateY(-2px);
+            background: var(--accent);
+            color: #fff;
         }
-        header  { animation: fadeIn 0.4s ease both; }
-        main    { animation: fadeIn 0.4s 0.08s ease both; }
-        footer  { animation: fadeIn 0.4s 0.16s ease both; }
 
         /* ── MOBILE ── */
-        @media (max-width: 480px) {
-            header { padding: 32px 0 28px; }
-            .link-list .link-desc { display: none; }
+        @media (max-width: 520px) {
+            .brand-text h1 { font-size: 26px; }
+            .card { padding: 24px; border-radius: 20px; }
+            .link-desc { display: none; }
+            .footer-card { flex-direction: column; text-align: center; }
+            .blob { opacity: 0.25; }
+            .mat-shape { opacity: 0.7; }
         }
     </style>
+<base target="_blank">
 </head>
 <body>
 
-<div class="wrap">
+    <!-- ═══════ LAYER 1: ORGANIC BLOBS ═══════ -->
+    <div class="blob blob-1"></div>
+    <div class="blob blob-2"></div>
+    <div class="blob blob-3"></div>
+    <div class="blob blob-4"></div>
+    <div class="blob blob-5"></div>
 
-    <header>
-        <div class="site-name">
-            <img src="media/fandcs-icon.png" height="70" width="70"> FANDCS
-        </div>
-        <div class="site-desc">Free And No Data Collection Softwares</div>
-    </header>
+    <!-- ═══════ LAYER 2: MATERIAL SHAPES (Google Android style) ═══════ -->
+    <div class="mat-shape mat-circle-blue"></div>
+    <div class="mat-shape mat-triangle-red"></div>
+    <div class="mat-shape mat-square-yellow"></div>
+    <div class="mat-shape mat-pill-green"></div>
+    <div class="mat-shape mat-circle-yellow"></div>
+    <div class="mat-shape mat-square-blue"></div>
+    <div class="mat-shape mat-pill-blue"></div>
+    <div class="mat-shape mat-circle-green"></div>
 
-    <main>
+    <!-- ═══════ LAYER 3: ACCENT DOTS ═══════ -->
+    <div class="dot dot-1"></div>
+    <div class="dot dot-2"></div>
+    <div class="dot dot-3"></div>
+    <div class="dot dot-4"></div>
+    <div class="dot dot-5"></div>
+    <div class="dot dot-6"></div>
+    <div class="dot dot-7"></div>
 
-        <!-- ABOUT -->
-        <section>
-            <div class="section-title">σχετικά</div>
-            <div class="about">
-                Ο <strong>FANDCS</strong> είναι ένας προσωπικός οργανισμός στο GitHub
-                που <b>φιλοξενεί</b> apps και projects που είναι <strong>δωρεάν</strong>
-                και δεν συλλέγουν προσωπικά δεδομένα.
-                Αυτή η σελίδα λειτουργεί ως αρχική για ανακατεύθυνση στα υπόλοιπα projects.
-                <i>Τα projects που φιλοξενούνται δεν είναι πάντα ιδιοκτησία του οργανισμού.</i>
+    <div class="wrap">
+
+        <header>
+            <a href="https://fandcs.github.io/main/" class="brand">
+                <div class="brand-icon">
+                    <img src="media/fandcs-icon.png" alt="FANDCS">
+                </div>
+                <div class="brand-text">
+                    <h1>FANDCS</h1>
+                    <span>Free And No Data Collection Softwares</span>
+                </div>
+            </a>
+        </header>
+
+        <main>
+
+            <!-- ABOUT -->
+            <section class="card">
+                <div class="section-title">σχετικά</div>
+                <div class="about">
+                    Ο <strong>FANDCS</strong> είναι ένας προσωπικός οργανισμός στο GitHub
+                    που <strong>φιλοξενεί</strong> apps και projects που είναι <strong>δωρεάν</strong>
+                    και δεν συλλέγουν προσωπικά δεδομένα.
+                    Αυτή η σελίδα λειτουργεί ως αρχική για ανακατεύθυνση στα υπόλοιπα projects.
+                    <em>Τα projects που φιλοξενούνται δεν είναι πάντα ιδιοκτησία του οργανισμού.</em>
+                </div>
+                <div class="tags">
+                    <span class="tag">open-source</span>
+                    <span class="tag">no-tracking</span>
+                    <span class="tag">free</span>
+                    <span class="tag">github-pages</span>
+                </div>
+            </section>
+
+            <!-- PROJECTS -->
+            <section class="card">
+                <div class="section-title">projects</div>
+                <ul class="link-list">
+                    <li>
+                        <a href="https://fandcs.github.io/main/History_Video_and_Lessons.html" target="_blank" rel="noopener">
+                            <div class="link-main">
+                                <span class="link-name">Βίντεο και Μαθήματα Ιστορίας</span>
+                                <span class="link-desc">Τεχνική υποστήριξη, κατασκευή website και host</span>
+                            </div>
+                            <span class="link-arrow">↗</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://github.com/FANDCS/AI_RAG" target="_blank" rel="noopener">
+                            <div class="link-main">
+                                <span class="link-name">AI Python RAG</span>
+                                <span class="link-desc">RAG file για "εκπαίδευση" τοπικών AI</span>
+                            </div>
+                            <span class="link-arrow">↗</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://github.com/FANDCS" target="_blank" rel="noopener">
+                            <div class="link-main">
+                                <span class="link-name">GitHub Organization</span>
+                                <span class="link-desc">Όλα τα repositories</span>
+                            </div>
+                            <span class="link-arrow">↗</span>
+                        </a>
+                    </li>
+                </ul>
+            </section>
+
+            <!-- LINKS -->
+            <section class="card">
+                <div class="section-title">σύνδεσμοι</div>
+                <ul class="link-list">
+                    <li>
+                        <a href="mailto:androi.5creator.5@gmail.com">
+                            <div class="link-main">
+                                <span class="link-name">androi.5creator.5@gmail.com</span>
+                                <span class="link-desc">Email Υποστήριξης</span>
+                            </div>
+                            <span class="link-arrow">↗</span>
+                        </a>
+                    </li>
+                </ul>
+            </section>
+
+        </main>
+
+        <footer>
+            <div class="footer-card">
+                <span class="footer-left">© 2026 FANDCS · Τελευταία ενημέρωση: 5/4/2026</span>
+                <span class="footer-right">
+                    <a href="https://github.com/FANDCS" target="_blank" rel="noopener">github.com/FANDCS</a>
+                </span>
             </div>
-            <div class="tags">
-                <span class="tag">open-source</span>
-                <span class="tag">no-tracking</span>
-                <span class="tag">free</span>
-                <span class="tag">github-pages</span>
-            </div>
-        </section>
+        </footer>
 
-        <!-- PROJECTS -->
-        <section>
-            <div class="section-title">projects</div>
-            <ul class="link-list">
-                <li>
-                    <a href="https://fandcs.github.io/main/History_Video_and_Lessons.html" target="_blank">
-                        <span class="link-name">Βίντεο και Μαθήματα Ιστορίας</span>
-                        <span class="link-desc">Τεχνική υποστήριξη, κατασκευή website και host</span>
-                        <span class="link-arrow">↗</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="https://github.com/FANDCS/AI_RAG" target="_blank">
-                        <span class="link-name">AI Python RAG</span>
-                        <span class="link-desc">RAG file για "εκπαίδευση" τοπικών AI</span>
-                        <span class="link-arrow">↗</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="https://github.com/FANDCS" target="_blank">
-                        <span class="link-name">GitHub Organization</span>
-                        <span class="link-desc">Όλα τα repositories</span>
-                        <span class="link-arrow">↗</span>
-                    </a>
-                </li>
-            </ul>
-        </section>
-
-        <!-- LINKS -->
-        <section>
-            <div class="section-title">σύνδεσμοι</div>
-            <ul class="link-list">
-                <li>
-                    <a href="mailto:androi.5creator.5@gmail.com">
-                        <span class="link-name">androi.5creator.5@gmail.com</span>
-                        <span class="link-desc">Email Υποστήριξης</span>
-                        <span class="link-arrow">↗</span>
-                    </a>
-                </li>
-<!--            <li>
-                    <a href="https://fandcs.github.io/History-of-E-Class-Greek" target="_blank">
-                        <span class="link-name">GitHub Pages — Storyline Apps</span>
-                        <span class="link-desc">fandcs.github.io</span>
-                        <span class="link-arrow">↗</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="https://github.com/FANDCS/History-of-E-Class-Greek" target="_blank">
-                        <span class="link-name">Repository: History of E Class</span>
-                        <span class="link-desc">github.com/FANDCS</span>
-                        <span class="link-arrow">↗</span>
-                    </a>
-                </li>
-            </ul> -->
-        </section>
-
-    </main>
-
-    <footer>
-        <div class="footer-inner">
-            <span class="footer-left">© 2026 FANDCS · Τελευταία ενημέρωση: 5/4/2026
-            <span class="footer-right">
-        <a href="https://github.com/FANDCS">github.com/FANDCS</a>
-      </span>
-        </div>
-    </footer>
-
-</div>
+    </div>
 
 </body>
 </html>
