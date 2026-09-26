@@ -42,6 +42,123 @@
         }
 
         /* ════════════════════════════════════════
+           LANGUAGE SWITCHER DROPDOWN
+           ════════════════════════════════════════ */
+        .lang-selector {
+            position: fixed;
+            top: 20px;
+            right: 24px;
+            z-index: 1000;
+        }
+
+        .lang-btn {
+            background: var(--surface);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.7);
+            border-radius: 12px;
+            padding: 8px 14px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+            box-shadow: var(--shadow-sm);
+            transition: all 0.2s ease;
+            font-family: 'Google Sans', sans-serif;
+            font-weight: 600;
+            font-size: 13px;
+            color: var(--ink-primary);
+        }
+
+        .lang-btn:hover {
+            box-shadow: var(--shadow-md);
+            transform: translateY(-1px);
+        }
+
+        .flag-icon {
+            display: inline-flex;
+            align-items: center;
+            width: 20px;
+            height: 15px;
+            border-radius: 2px;
+            overflow: hidden;
+            box-shadow: 0 0 2px rgba(0,0,0,0.2);
+            flex-shrink: 0;
+        }
+
+        .flag-icon svg {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .lang-btn .arrow {
+            font-size: 9px;
+            color: var(--ink-muted);
+            transition: transform 0.2s ease;
+        }
+
+        .lang-selector.open .lang-btn .arrow {
+            transform: rotate(180deg);
+        }
+
+        .lang-dropdown {
+            position: absolute;
+            top: calc(100% + 8px);
+            right: 0;
+            background: var(--surface);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.7);
+            border-radius: 14px;
+            padding: 6px;
+            box-shadow: var(--shadow-md);
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+            min-width: 130px;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(-8px);
+            transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .lang-selector.open .lang-dropdown {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        .lang-option {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 8px 12px;
+            border-radius: 8px;
+            border: none;
+            background: transparent;
+            color: var(--ink-primary);
+            font-family: 'Nunito', sans-serif;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            width: 100%;
+            text-align: left;
+            transition: background 0.15s ease, color 0.15s ease;
+        }
+
+        .lang-option:hover {
+            background: rgba(26, 115, 232, 0.08);
+            color: var(--accent);
+        }
+
+        .lang-option.active {
+            background: var(--accent-soft);
+            color: var(--accent);
+            font-weight: 700;
+        }
+
+        /* ════════════════════════════════════════
            LAYER 1: ORGANIC BLOBS (deep background)
            ════════════════════════════════════════ */
         .blob {
@@ -113,9 +230,7 @@
         }
 
         /* ════════════════════════════════════════
-           LAYER 2: MATERIAL SHAPES (mid layer)
-           — Google Android style, new positions,
-           modern gradient styling
+           LAYER 2: MATERIAL SHAPES
            ════════════════════════════════════════ */
         .mat-shape {
             position: fixed;
@@ -148,7 +263,6 @@
             50% { transform: translateY(10px) scale(1.06) rotate(-4deg); }
         }
 
-        /* Circle — top-left area but INWARD, not edge */
         .mat-circle-blue {
             top: 12%; left: 6%;
             width: 90px; height: 90px;
@@ -158,7 +272,6 @@
             animation: matFloat1 6s ease-in-out infinite;
         }
 
-        /* Triangle — mid-left, lower than before */
         .mat-triangle-red {
             top: 58%; left: 3%;
             width: 0; height: 0;
@@ -170,7 +283,6 @@
             animation: matFloat2 7.5s ease-in-out infinite;
         }
 
-        /* Rounded square — bottom-left, more inward */
         .mat-square-yellow {
             bottom: 18%; left: 10%;
             width: 75px; height: 75px;
@@ -181,7 +293,6 @@
             animation: matFloat3 8s ease-in-out infinite;
         }
 
-        /* Pill — top-right, more inward */
         .mat-pill-green {
             top: 16%; right: 6%;
             width: 120px; height: 55px;
@@ -192,7 +303,6 @@
             animation: matFloat5 6.5s ease-in-out infinite;
         }
 
-        /* Small circle — mid-right, higher than before */
         .mat-circle-yellow {
             top: 48%; right: 5%;
             width: 50px; height: 50px;
@@ -202,7 +312,6 @@
             animation: matFloat1 5s ease-in-out infinite;
         }
 
-        /* Square — bottom-right, more inward */
         .mat-square-blue {
             bottom: 22%; right: 8%;
             width: 85px; height: 85px;
@@ -213,7 +322,6 @@
             animation: matFloat4 7s ease-in-out infinite;
         }
 
-        /* Extra: small pill — center-left area */
         .mat-pill-blue {
             top: 32%; left: 2%;
             width: 70px; height: 28px;
@@ -224,7 +332,6 @@
             animation: matFloat6 5.5s ease-in-out infinite;
         }
 
-        /* Extra: small circle — center-right area */
         .mat-circle-green {
             top: 72%; right: 12%;
             width: 35px; height: 35px;
@@ -235,7 +342,7 @@
         }
 
         /* ════════════════════════════════════════
-           LAYER 3: ACCENT DOTS (foreground)
+           LAYER 3: ACCENT DOTS
            ════════════════════════════════════════ */
         .dot {
             position: fixed;
@@ -291,14 +398,14 @@
         .brand-icon {
             width: 40px;
             height: 40px;
-            background: transparent; /* Κάνει το φόντο διάφανο */
+            background: transparent;
             display: flex;
             align-items: center;
             justify-content: center;
+            transition: transform 0.3s ease;
         }
         .brand:hover .brand-icon {
             transform: scale(1.05) rotate(-3deg);
-            box-shadow: 0 12px 32px rgba(26, 115, 232, 0.35);
         }
 
         .brand-icon img {
@@ -559,6 +666,7 @@
 
         /* ── MOBILE ── */
         @media (max-width: 520px) {
+            .lang-selector { top: 16px; right: 16px; }
             .brand-text h1 { font-size: 26px; }
             .card { padding: 24px; border-radius: 20px; }
             .link-desc { display: none; }
@@ -567,9 +675,43 @@
             .mat-shape { opacity: 0.7; }
         }
     </style>
-<base target="_blank">
+    <base target="_blank">
 </head>
 <body>
+
+    <!-- ═══════ LANGUAGE SELECTOR DROPDOWN ═══════ -->
+    <div class="lang-selector" id="langSelector">
+        <button class="lang-btn" id="langBtn" aria-label="Select Language">
+            <span class="flag-icon" id="currentFlag"></span>
+            <span class="lang-code" id="currentLangCode">EL</span>
+            <span class="arrow">▼</span>
+        </button>
+        <div class="lang-dropdown" id="langDropdown">
+            <button class="lang-option" data-lang="el">
+                <span class="flag-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 480">
+                        <path fill="#0d5eaf" d="M0 0h640v480H0z"/>
+                        <path fill="#fff" d="M0 53.3h640v53.4H0zm0 106.6h640v53.4H0zm0 106.7h640v53.3H0zm0 106.7h640v53.3H0z"/>
+                        <path fill="#0d5eaf" d="M0 0h240v240H0z"/>
+                        <path fill="#fff" d="M80 0h80v240H80zM0 80h240v80H0z"/>
+                    </svg>
+                </span>
+                <span>Ελληνικά</span>
+            </button>
+            <button class="lang-option" data-lang="en">
+                <span class="flag-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 480">
+                        <path fill="#012169" d="M0 0h640v480H0z"/>
+                        <path fill="#fff" d="m0 0 640 480M640 0 0 480" stroke="#fff" stroke-width="60"/>
+                        <path stroke="#c8102e" stroke-width="40" d="m0 0 640 480M640 0 0 480"/>
+                        <path stroke="#fff" stroke-width="100" d="M320 0v480M0 240h640"/>
+                        <path stroke="#c8102e" stroke-width="60" d="M320 0v480M0 240h640"/>
+                    </svg>
+                </span>
+                <span>English</span>
+            </button>
+        </div>
+    </div>
 
     <!-- ═══════ LAYER 1: ORGANIC BLOBS ═══════ -->
     <div class="blob blob-1"></div>
@@ -578,7 +720,7 @@
     <div class="blob blob-4"></div>
     <div class="blob blob-5"></div>
 
-    <!-- ═══════ LAYER 2: MATERIAL SHAPES (Google Android style) ═══════ -->
+    <!-- ═══════ LAYER 2: MATERIAL SHAPES ═══════ -->
     <div class="mat-shape mat-circle-blue"></div>
     <div class="mat-shape mat-triangle-red"></div>
     <div class="mat-shape mat-square-yellow"></div>
@@ -600,13 +742,13 @@
     <div class="wrap">
 
         <header>
-            <a href="https://fandcs.github.io/main/" class="brand">
+            <a href="https://fandcs.github.io/main/" class="brand" target="_self">
                 <div class="brand-icon">
                     <img src="https://raw.githubusercontent.com/FANDCS/main/refs/heads/main/media/fandcs-icon.png" alt="FANDCS">
                 </div>
                 <div class="brand-text">
                     <h1>FANDCS</h1>
-                    <span>Free And No Data Collection Softwares</span>
+                    <span data-i18n="brand_sub">Free And No Data Collection Softwares</span>
                 </div>
             </a>
         </header>
@@ -615,8 +757,8 @@
 
             <!-- ABOUT -->
             <section class="card">
-                <div class="section-title">σχετικά</div>
-                <div class="about">
+                <div class="section-title" data-i18n="sec_about">σχετικά</div>
+                <div class="about" data-i18n="about_text">
                     Ο <strong>FANDCS</strong> είναι ένας προσωπικός οργανισμός στο GitHub
                     που <strong>φιλοξενεί</strong> apps και projects που είναι <strong>δωρεάν</strong>
                     και δεν συλλέγουν προσωπικά δεδομένα.
@@ -633,13 +775,13 @@
 
             <!-- PROJECTS -->
             <section class="card">
-                <div class="section-title">projects</div>
+                <div class="section-title" data-i18n="sec_projects">projects</div>
                 <ul class="link-list">
                     <li>
                         <a href="https://fandcs.github.io/main/History_Video_and_Lessons.html" target="_blank" rel="noopener">
                             <div class="link-main">
-                                <span class="link-name">Βίντεο και Μαθήματα Ιστορίας</span>
-                                <span class="link-desc">Τεχνική υποστήριξη, κατασκευή website και host</span>
+                                <span class="link-name" data-i18n="p1_title">Βίντεο και Μαθήματα Ιστορίας</span>
+                                <span class="link-desc" data-i18n="p1_desc">Τεχνική υποστήριξη, κατασκευή website και host</span>
                             </div>
                             <span class="link-arrow">↗</span>
                         </a>
@@ -647,8 +789,8 @@
                     <li>
                         <a href="https://github.com/FANDCS/AI_RAG_extra" target="_blank" rel="noopener">
                             <div class="link-main">
-                                <span class="link-name">AI Python RAG</span>
-                                <span class="link-desc">RAG file για "εκπαίδευση" τοπικών AI</span>
+                                <span class="link-name" data-i18n="p2_title">AI Python RAG</span>
+                                <span class="link-desc" data-i18n="p2_desc">RAG file για "εκπαίδευση" τοπικών AI</span>
                             </div>
                             <span class="link-arrow">↗</span>
                         </a>
@@ -656,8 +798,8 @@
                     <li>
                         <a href="https://github.com/FANDCS/Callen_App" target="_blank" rel="noopener">
                             <div class="link-main">
-                                <span class="link-name">Callen</span>
-                                <span class="link-desc">Μια ελαφριά και μοντέρνα εφαρμογή κλήσεων</span>
+                                <span class="link-name" data-i18n="p3_title">Callen</span>
+                                <span class="link-desc" data-i18n="p3_desc">Μια ελαφριά και μοντέρνα εφαρμογή κλήσεων</span>
                             </div>
                             <span class="link-arrow">↗</span>
                         </a>
@@ -665,19 +807,17 @@
                     <li>
                         <a href="https://github.com/FANDCS/Empty_Copy" target="_blank" rel="noopener">
                             <div class="link-main">
-                                <span class="link-name">Empty Copy</span>
-                                <span class="link-desc">Αντιγραφή αρχείων/φακέλων στην μνήμη ram</span>
+                                <span class="link-name" data-i18n="p4_title">Empty Copy</span>
+                                <span class="link-desc" data-i18n="p4_desc">Αντιγραφή αρχείων/φακέλων στην μνήμη ram</span>
                             </div>
                             <span class="link-arrow">↗</span>
                         </a>
                     </li>
                     <li>
-                    
-                    <li>
                         <a href="https://github.com/FANDCS" target="_blank" rel="noopener">
                             <div class="link-main">
-                                <span class="link-name">GitHub Organization</span>
-                                <span class="link-desc">Όλα τα repositories</span>
+                                <span class="link-name" data-i18n="p5_title">GitHub Organization</span>
+                                <span class="link-desc" data-i18n="p5_desc">Όλα τα repositories</span>
                             </div>
                             <span class="link-arrow">↗</span>
                         </a>
@@ -687,13 +827,13 @@
 
             <!-- LINKS -->
             <section class="card">
-                <div class="section-title">σύνδεσμοι</div>
+                <div class="section-title" data-i18n="sec_links">σύνδεσμοι</div>
                 <ul class="link-list">
                     <li>
                         <a href="mailto:androi.5creator.5@gmail.com">
                             <div class="link-main">
                                 <span class="link-name">android_creator@inbox.vg</span>
-                                <span class="link-desc">Email</span>
+                                <span class="link-desc" data-i18n="link1_desc">Email</span>
                             </div>
                             <span class="link-arrow">↗</span>
                         </a>
@@ -702,7 +842,7 @@
                         <a href="https://apkpure.com/developer?id=17984182">
                             <div class="link-main">
                                 <span class="link-name">Apkpure</span>
-                                <span class="link-desc">Κατάστημα Εφαρμογών</span>
+                                <span class="link-desc" data-i18n="link2_desc">Κατάστημα Εφαρμογών</span>
                             </div>
                             <span class="link-arrow">↗</span>
                         </a>
@@ -711,11 +851,11 @@
                         <a href="https://en.uptodown.com/developer/fandcs">
                             <div class="link-main">
                                 <span class="link-name">Uptodown</span>
-                                <span class="link-desc">Κατάστημα Εφαρμογών</span>
+                                <span class="link-desc" data-i18n="link3_desc">Κατάστημα Εφαρμογών</span>
                             </div>
                             <span class="link-arrow">↗</span>
                         </a>
-                    </li>                    
+                    </li>
                 </ul>
             </section>
 
@@ -723,7 +863,7 @@
 
         <footer>
             <div class="footer-card">
-                <span class="footer-left">© 2026 FANDCS · Τελευταία ενημέρωση: 31/8/2026</span>
+                <span class="footer-left" data-i18n="footer_text">© 2026 FANDCS · Τελευταία ενημέρωση: 31/8/2026</span>
                 <span class="footer-right">
                     <a href="https://github.com/FANDCS" target="_blank" rel="noopener">github.com/FANDCS</a>
                 </span>
@@ -732,5 +872,126 @@
 
     </div>
 
+    <!-- ═══════ AUTO LANGUAGE & DROPDOWN SCRIPT ═══════ -->
+    <script>
+        const flagsSVG = {
+            el: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 480"><path fill="#0d5eaf" d="M0 0h640v480H0z"/><path fill="#fff" d="M0 53.3h640v53.4H0zm0 106.6h640v53.4H0zm0 106.7h640v53.3H0zm0 106.7h640v53.3H0z"/><path fill="#0d5eaf" d="M0 0h240v240H0z"/><path fill="#fff" d="M80 0h80v240H80zM0 80h240v80H0z"/></svg>`,
+            en: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 480"><path fill="#012169" d="M0 0h640v480H0z"/><path fill="#fff" d="m0 0 640 480M640 0 0 480" stroke="#fff" stroke-width="60"/><path stroke="#c8102e" stroke-width="40" d="m0 0 640 480M640 0 0 480"/><path stroke="#fff" stroke-width="100" d="M320 0v480M0 240h640"/><path stroke="#c8102e" stroke-width="60" d="M320 0v480M0 240h640"/></svg>`
+        };
+
+        const translations = {
+            el: {
+                brand_sub: "Free And No Data Collection Softwares",
+                sec_about: "σχετικά",
+                about_text: 'Ο <strong>FANDCS</strong> είναι ένας προσωπικός οργανισμός στο GitHub που <strong>φιλοξενεί</strong> apps και projects που είναι <strong>δωρεάν</strong> και δεν συλλέγουν προσωπικά δεδομένα. Αυτή η σελίδα λειτουργεί ως αρχική για ανακατεύθυνση στα υπόλοιπα projects. <em>Τα projects που φιλοξενούνται δεν είναι πάντα ιδιοκτησία του οργανισμού.</em>',
+                sec_projects: "projects",
+                p1_title: "Βίντεο και Μαθήματα Ιστορίας",
+                p1_desc: "Τεχνική υποστήριξη, κατασκευή website και host",
+                p2_title: "AI Python RAG",
+                p2_desc: 'RAG file για "εκπαίδευση" τοπικών AI',
+                p3_title: "Callen",
+                p3_desc: "Μια ελαφριά και μοντέρνα εφαρμογή κλήσεων",
+                p4_title: "Empty Copy",
+                p4_desc: "Αντιγραφή αρχείων/φακέλων στην μνήμη ram",
+                p5_title: "GitHub Organization",
+                p5_desc: "Όλα τα repositories",
+                sec_links: "σύνδεσμοι",
+                link1_desc: "Email",
+                link2_desc: "Κατάστημα Εφαρμογών",
+                link3_desc: "Κατάστημα Εφαρμογών",
+                footer_text: "© 2026 FANDCS · Τελευταία ενημέρωση: 31/8/2026"
+            },
+            en: {
+                brand_sub: "Free And No Data Collection Softwares",
+                sec_about: "about",
+                about_text: '<strong>FANDCS</strong> is a personal organization on GitHub that <strong>hosts</strong> apps and projects that are <strong>free</strong> and do not collect personal data. This page serves as a landing page redirecting to other projects. <em>Hosted projects are not always owned by the organization.</em>',
+                sec_projects: "projects",
+                p1_title: "History Videos and Lessons",
+                p1_desc: "Technical support, website building and hosting",
+                p2_title: "AI Python RAG",
+                p2_desc: 'RAG file for local AI "training"',
+                p3_title: "Callen",
+                p3_desc: "A lightweight and modern calling app",
+                p4_title: "Empty Copy",
+                p4_desc: "Copy files/folders into RAM memory",
+                p5_title: "GitHub Organization",
+                p5_desc: "All repositories",
+                sec_links: "links",
+                link1_desc: "Email",
+                link2_desc: "App Store",
+                link3_desc: "App Store",
+                footer_text: "© 2026 FANDCS · Last updated: 31/8/2026"
+            }
+        };
+
+        // DOM elements
+        const langSelector = document.getElementById('langSelector');
+        const langBtn = document.getElementById('langBtn');
+        const currentFlag = document.getElementById('currentFlag');
+        const currentLangCode = document.getElementById('currentLangCode');
+        const langOptions = document.querySelectorAll('.lang-option');
+
+        // Automatic Language Detection
+        function getPreferredLanguage() {
+            const savedLang = localStorage.getItem('fandcs_lang');
+            if (savedLang && (savedLang === 'el' || savedLang === 'en')) {
+                return savedLang;
+            }
+            const sysLang = (navigator.language || navigator.userLanguage || '').toLowerCase();
+            return sysLang.startsWith('el') ? 'el' : 'en';
+        }
+
+        // Set Language Function
+        function setLanguage(lang) {
+            document.documentElement.lang = lang;
+            localStorage.setItem('fandcs_lang', lang);
+
+            // Update Header/Dropdown Button UI
+            currentFlag.innerHTML = flagsSVG[lang];
+            currentLangCode.textContent = lang.toUpperCase();
+
+            // Update active option highlight
+            langOptions.forEach(opt => {
+                if (opt.getAttribute('data-lang') === lang) {
+                    opt.classList.add('active');
+                } else {
+                    opt.classList.remove('active');
+                }
+            });
+
+            // Translate Content
+            document.querySelectorAll('[data-i18n]').forEach(element => {
+                const key = element.getAttribute('data-i18n');
+                if (translations[lang] && translations[lang][key]) {
+                    element.innerHTML = translations[lang][key];
+                }
+            });
+        }
+
+        // Toggle Dropdown
+        langBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            langSelector.classList.toggle('open');
+        });
+
+        // Language Option Click
+        langOptions.forEach(option => {
+            option.addEventListener('click', (e) => {
+                e.stopPropagation();
+                const selectedLang = option.getAttribute('data-lang');
+                setLanguage(selectedLang);
+                langSelector.classList.remove('open');
+            });
+        });
+
+        // Close Dropdown on outside click
+        document.addEventListener('click', () => {
+            langSelector.classList.remove('open');
+        });
+
+        // Initialize Page Language
+        const initialLang = getPreferredLanguage();
+        setLanguage(initialLang);
+    </script>
 </body>
 </html>
