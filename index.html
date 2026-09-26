@@ -39,14 +39,15 @@
             line-height: 1.7;
             position: relative;
             overflow-x: hidden;
+            padding-top: 40px; /* Αφήνει χώρο πάνω για να μην κρύβεται το header από το fixed banner */
         }
 
         /* ════════════════════════════════════════
-           LANGUAGE SWITCHER DROPDOWN
+           LANGUAGE SWITCHER DROPDOWN (Κατεβασμένο 1 κλικ κάτω)
            ════════════════════════════════════════ */
         .lang-selector {
             position: fixed;
-            top: 20px;
+            top: 72px; /* Ανεβασμένο/Προσαρμοσμένο λόγω του fixed banner */
             right: 24px;
             z-index: 1000;
         }
@@ -666,7 +667,7 @@
 
         /* ── MOBILE ── */
         @media (max-width: 520px) {
-            .lang-selector { top: 16px; right: 16px; }
+            .lang-selector { top: 64px; right: 16px; }
             .brand-text h1 { font-size: 26px; }
             .card { padding: 24px; border-radius: 20px; }
             .link-desc { display: none; }
@@ -678,6 +679,8 @@
     <base target="_blank">
 </head>
 <body>
+    <!-- Container για το δυναμικό banner του Keep Android Open (fixed κορυφή) -->
+    <div id="kao-banner-container"></div>
 
     <!-- ═══════ LANGUAGE SELECTOR DROPDOWN ═══════ -->
     <div class="lang-selector" id="langSelector">
@@ -872,7 +875,7 @@
 
     </div>
 
-    <!-- ═══════ AUTO LANGUAGE & DROPDOWN SCRIPT ═══════ -->
+    <!-- ═══════ AUTO LANGUAGE & BANNER SYNC SCRIPT ═══════ -->
     <script>
         const flagsSVG = {
             el: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 480"><path fill="#0d5eaf" d="M0 0h640v480H0z"/><path fill="#fff" d="M0 53.3h640v53.4H0zm0 106.6h640v53.4H0zm0 106.7h640v53.3H0zm0 106.7h640v53.3H0z"/><path fill="#0d5eaf" d="M0 0h240v240H0z"/><path fill="#fff" d="M80 0h80v240H80zM0 80h240v80H0z"/></svg>`,
@@ -931,7 +934,44 @@
         const currentLangCode = document.getElementById('currentLangCode');
         const langOptions = document.querySelectorAll('.lang-option');
 
-        // Automatic Language Detection
+        // Load or update Keep Android Open Banner dynamically inside a fixed isolated iframe
+        function updateBanner(lang) {
+            const container = document.getElementById('kao-banner-container');
+
+            // 1. Καθαρίζουμε εντελώς το container
+            container.innerHTML = '';
+
+            // 2. Δημιουργούμε ένα νέο iframe για απομόνωση και το κάνουμε fixed στην κορυφή
+            const iframe = document.createElement('iframe');
+            iframe.style.position = 'fixed';
+            iframe.style.top = '0';
+            iframe.style.left = '0';
+            iframe.style.width = '100%';
+            iframe.style.height = '40px';
+            iframe.style.zIndex = '99999';
+            iframe.style.border = 'none';
+            iframe.style.overflow = 'hidden';
+            iframe.scrolling = 'no';
+
+            container.appendChild(iframe);
+
+            const doc = iframe.contentDocument || iframe.contentWindow.document;
+            doc.open();
+            doc.write(`
+                <!DOCTYPE html>
+                <html>
+                <head>
+                    <style>body { margin: 0; background: transparent; }</style>
+                </head>
+                <body>
+                    <script src="https://keepandroidopen.org/banner.js?size=minimal&animation=off&lang=${lang}"><\/script>
+                </body>
+                </html>
+            `);
+            doc.close();
+        }
+
+        // Automatic Language Detection with Memory (localStorage)
         function getPreferredLanguage() {
             const savedLang = localStorage.getItem('fandcs_lang');
             if (savedLang && (savedLang === 'el' || savedLang === 'en')) {
@@ -966,6 +1006,9 @@
                     element.innerHTML = translations[lang][key];
                 }
             });
+
+            // Ενημέρωση και του Banner ανάλογα με τη γλώσσα
+            updateBanner(lang);
         }
 
         // Toggle Dropdown
