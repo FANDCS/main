@@ -13,6 +13,7 @@
     <style>
         *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
 
+        /* Light Mode (Default) */
         :root {
             --bg: #f8fafc;
             --surface: rgba(255, 255, 255, 0.82);
@@ -25,6 +26,23 @@
 
             --shadow-sm: 0 2px 8px rgba(0,0,0,0.04), 0 1px 3px rgba(0,0,0,0.03);
             --shadow-md: 0 12px 32px -8px rgba(0,0,0,0.08), 0 4px 12px -2px rgba(0,0,0,0.04);
+        }
+
+        /* Dark Mode Support */
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --bg: #0b0f19;
+                --surface: rgba(17, 24, 39, 0.82);
+                --ink-primary: #f8fafc;
+                --ink-secondary: #94a3b8;
+                --ink-muted: #64748b;
+                --accent: #38bdf8;
+                --accent-soft: rgba(56, 189, 248, 0.12);
+                --line: rgba(100, 116, 139, 0.25);
+
+                --shadow-sm: 0 2px 8px rgba(0,0,0,0.2), 0 1px 3px rgba(0,0,0,0.15);
+                --shadow-md: 0 12px 32px -8px rgba(0,0,0,0.4), 0 4px 12px -2px rgba(0,0,0,0.2);
+            }
         }
 
         html, body {
@@ -53,7 +71,7 @@
             background: var(--surface);
             backdrop-filter: blur(20px);
             -webkit-backdrop-filter: blur(20px);
-            border: 1px solid rgba(255, 255, 255, 0.7);
+            border: 1px solid var(--line);
             border-radius: 12px;
             padding: 8px 14px;
             display: flex;
@@ -107,7 +125,7 @@
             background: var(--surface);
             backdrop-filter: blur(20px);
             -webkit-backdrop-filter: blur(20px);
-            border: 1px solid rgba(255, 255, 255, 0.7);
+            border: 1px solid var(--line);
             border-radius: 14px;
             padding: 6px;
             box-shadow: var(--shadow-md);
@@ -146,7 +164,7 @@
         }
 
         .lang-option:hover {
-            background: rgba(26, 115, 232, 0.08);
+            background: var(--accent-soft);
             color: var(--accent);
         }
 
@@ -161,7 +179,7 @@
             z-index: 0;
             pointer-events: none;
             filter: blur(70px);
-            opacity: 0.4;
+            opacity: 0.35;
         }
 
         @keyframes drift1 {
@@ -188,11 +206,11 @@
             50% { transform: translate(-25px, 35px) scale(1.08) rotate(-12deg); }
         }
 
-        .blob-1 { top: -12%; left: -15%; width: 550px; height: 550px; background: radial-gradient(circle at 30% 30%, rgba(45, 212, 191, 0.45), rgba(56, 189, 248, 0.15)); border-radius: 60% 40% 50% 50% / 50% 50% 40% 60%; animation: drift1 20s ease-in-out infinite; }
-        .blob-2 { bottom: -18%; right: -15%; width: 650px; height: 600px; background: radial-gradient(circle at 70% 70%, rgba(251, 146, 60, 0.3), rgba(244, 114, 182, 0.12)); border-radius: 45% 55% 60% 40% / 55% 45% 55% 45%; animation: drift2 24s ease-in-out infinite; }
-        .blob-3 { top: 45%; left: -10%; width: 380px; height: 380px; background: radial-gradient(circle at 50% 50%, rgba(167, 139, 250, 0.28), rgba(139, 92, 246, 0.08)); border-radius: 55% 45% 40% 60% / 45% 55% 50% 50%; animation: drift3 17s ease-in-out infinite; }
-        .blob-4 { top: 2%; right: -8%; width: 420px; height: 420px; background: radial-gradient(circle at 40% 60%, rgba(163, 230, 53, 0.22), rgba(132, 204, 22, 0.06)); border-radius: 50% 50% 45% 55% / 55% 45% 55% 45%; animation: drift4 21s ease-in-out infinite; }
-        .blob-5 { bottom: 8%; left: 20%; width: 320px; height: 320px; background: radial-gradient(circle at 60% 40%, rgba(244, 63, 94, 0.15), rgba(225, 29, 72, 0.05)); border-radius: 45% 55% 55% 45% / 50% 45% 55% 50%; animation: drift5 18s ease-in-out infinite; }
+        .blob-1 { top: -12%; left: -15%; width: 550px; height: 550px; background: radial-gradient(circle at 30% 30%, rgba(45, 212, 191, 0.4), rgba(56, 189, 248, 0.15)); border-radius: 60% 40% 50% 50% / 50% 50% 40% 60%; animation: drift1 20s ease-in-out infinite; }
+        .blob-2 { bottom: -18%; right: -15%; width: 650px; height: 600px; background: radial-gradient(circle at 70% 70%, rgba(251, 146, 60, 0.25), rgba(244, 114, 182, 0.1)); border-radius: 45% 55% 60% 40% / 55% 45% 55% 45%; animation: drift2 24s ease-in-out infinite; }
+        .blob-3 { top: 45%; left: -10%; width: 380px; height: 380px; background: radial-gradient(circle at 50% 50%, rgba(167, 139, 250, 0.25), rgba(139, 92, 246, 0.08)); border-radius: 55% 45% 40% 60% / 45% 55% 50% 50%; animation: drift3 17s ease-in-out infinite; }
+        .blob-4 { top: 2%; right: -8%; width: 420px; height: 420px; background: radial-gradient(circle at 40% 60%, rgba(163, 230, 53, 0.2), rgba(132, 204, 22, 0.05)); border-radius: 50% 50% 45% 55% / 55% 45% 55% 45%; animation: drift4 21s ease-in-out infinite; }
+        .blob-5 { bottom: 8%; left: 20%; width: 320px; height: 320px; background: radial-gradient(circle at 60% 40%, rgba(244, 63, 94, 0.12), rgba(225, 29, 72, 0.04)); border-radius: 45% 55% 55% 45% / 50% 45% 55% 50%; animation: drift5 18s ease-in-out infinite; }
 
         .mat-shape { position: fixed; z-index: 1; pointer-events: none; }
         @keyframes matFloat1 { 0%, 100% { transform: translateY(0) rotate(0deg); } 50% { transform: translateY(-18px) rotate(6deg); } }
@@ -233,7 +251,7 @@
         .brand-text h1 { font-family: 'Google Sans', sans-serif; font-size: 32px; font-weight: 700; letter-spacing: -0.03em; color: var(--ink-primary); line-height: 1.1; }
         .brand-text span { display: block; font-family: 'Nunito', sans-serif; font-size: 12px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: var(--accent); margin-top: 4px; }
 
-        .card { background: var(--surface); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); border: 1px solid rgba(255, 255, 255, 0.65); border-radius: 24px; padding: 32px; margin-bottom: 24px; box-shadow: var(--shadow-sm); transition: transform 0.3s ease, box-shadow 0.3s ease; animation: fadeInUp 0.6s ease both; }
+        .card { background: var(--surface); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); border: 1px solid var(--line); border-radius: 24px; padding: 32px; margin-bottom: 24px; box-shadow: var(--shadow-sm); transition: transform 0.3s ease, box-shadow 0.3s ease; animation: fadeInUp 0.6s ease both; }
         .card:hover { box-shadow: var(--shadow-md); }
         @keyframes fadeInUp { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: translateY(0); } }
         .card:nth-child(1) { animation-delay: 0.1s; }
@@ -248,18 +266,12 @@
         .about em { display: block; margin-top: 12px; font-size: 13px; color: var(--ink-muted); font-style: italic; }
 
         .tags { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 20px; }
-        .tag { font-family: 'Google Sans', sans-serif; font-size: 11px; font-weight: 600; letter-spacing: 0.04em; padding: 6px 14px; border-radius: 100px; background: var(--accent-soft); color: var(--accent); border: 1px solid rgba(26, 115, 232, 0.12); transition: transform 0.2s ease, background 0.2s ease; cursor: default; }
-        .tag:hover { transform: translateY(-2px); background: rgba(26, 115, 232, 0.14); }
-        .tag:nth-child(2) { background: rgba(45, 212, 191, 0.1); color: #0d9488; border-color: rgba(45, 212, 191, 0.15); }
-        .tag:nth-child(2):hover { background: rgba(45, 212, 191, 0.18); }
-        .tag:nth-child(3) { background: rgba(52, 168, 83, 0.08); color: #188038; border-color: rgba(52, 168, 83, 0.12); }
-        .tag:nth-child(3):hover { background: rgba(52, 168, 83, 0.14); }
-        .tag:nth-child(4) { background: rgba(251, 146, 60, 0.1); color: #c2410c; border-color: rgba(251, 146, 60, 0.15); }
-        .tag:nth-child(4):hover { background: rgba(251, 146, 60, 0.18); }
+        .tag { font-family: 'Google Sans', sans-serif; font-size: 11px; font-weight: 600; letter-spacing: 0.04em; padding: 6px 14px; border-radius: 100px; background: var(--accent-soft); color: var(--accent); border: 1px solid var(--line); transition: transform 0.2s ease, background 0.2s ease; cursor: default; }
+        .tag:hover { transform: translateY(-2px); }
 
         .link-list { list-style: none; display: flex; flex-direction: column; gap: 10px; }
         .link-list li { border-radius: 16px; transition: transform 0.2s ease, background 0.2s ease; }
-        .link-list li:hover { background: rgba(26, 115, 232, 0.04); transform: translateX(4px); }
+        .link-list li:hover { background: var(--accent-soft); transform: translateX(4px); }
         .link-list a { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 14px 16px; text-decoration: none; color: var(--ink-primary); border-radius: 16px; border: 1px solid transparent; transition: border-color 0.2s ease, box-shadow 0.2s ease; }
         .link-list a:hover { border-color: var(--line); box-shadow: var(--shadow-sm); }
         .link-main { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
@@ -269,10 +281,21 @@
         .link-list a:hover .link-arrow { background: var(--accent); color: #fff; transform: translateX(3px) scale(1.1); }
 
         footer { padding: 32px 0 48px; animation: fadeInUp 0.6s 0.4s ease both; }
-        .footer-card { background: var(--surface); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); border: 1px solid rgba(255, 255, 255, 0.65); border-radius: 20px; padding: 20px 28px; display: flex; justify-content: space-between; align-items: center; gap: 16px; flex-wrap: wrap; box-shadow: var(--shadow-sm); }
+        .footer-card { background: var(--surface); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); border: 1px solid var(--line); border-radius: 20px; padding: 20px 28px; display: flex; justify-content: space-between; align-items: center; gap: 16px; flex-wrap: wrap; box-shadow: var(--shadow-sm); }
         .footer-left { font-size: 12px; color: var(--ink-muted); font-weight: 500; }
         .footer-right a { font-family: 'Google Sans', sans-serif; font-size: 12px; font-weight: 600; text-decoration: none; padding: 8px 16px; border-radius: 12px; background: var(--accent-soft); color: var(--accent); transition: transform 0.2s ease, background 0.2s ease; display: inline-flex; align-items: center; gap: 6px; }
         .footer-right a:hover { transform: translateY(-2px); background: var(--accent); color: #fff; }
+
+        /* PERFORMANCE FIX FOR MOBILE / FIREFOX */
+        @media (max-width: 768px) {
+            .blob, .mat-shape, .dot {
+                display: none !important; /* Απενεργοποίηση βαριών background elements στα κινητά για αποφυγή lag στο Firefox */
+            }
+            .card, .footer-card, .lang-btn, .lang-dropdown {
+                backdrop-filter: none !important;
+                -webkit-backdrop-filter: none !important;
+            }
+        }
 
         @media (max-width: 520px) {
             .lang-selector { top: 64px; right: 16px; }
@@ -280,8 +303,6 @@
             .card { padding: 24px; border-radius: 20px; }
             .link-desc { display: none; }
             .footer-card { flex-direction: column; text-align: center; }
-            .blob { opacity: 0.25; }
-            .mat-shape { opacity: 0.7; }
         }
     </style>
     <base target="_blank">
@@ -474,7 +495,7 @@
 
         <footer>
             <div class="footer-card">
-                <span class="footer-left" data-i18n="footer_text">© 2026 FANDCS · Τελευταία ενημέρωση: 31/8/2026</span>
+                <span class="footer-left" data-i18n="footer_text">© 2026 FANDCS · Τελευταία ενημέρωση: 28/9/2026</span>
                 <span class="footer-right">
                     <a href="https://github.com/FANDCS" target="_blank" rel="noopener">github.com/FANDCS</a>
                 </span>
@@ -514,7 +535,7 @@
             en: {
                 brand_sub: "Free And No Data Collection Softwares",
                 sec_about: "about",
-                about_text: '<strong>FANDCS</strong> is a organization from developers and designers (hobbyist team) crafting free, open-source apps and projects since 2022. We maintain a strict privacy-first approach with zero data collection and no ads. This page serves as a landing page redirecting to our projects',
+                about_text: '<strong>FANDCS</strong> is an organization from developers and designers (hobbyist team) crafting free, open-source apps and projects since 2022. We maintain a strict privacy-first approach with zero data collection and no ads. This page serves as a landing page redirecting to our projects',
                 sec_projects: "projects",
                 p1_title: "History Videos and Lessons",
                 p1_desc: "Technical support, website building and hosting",
