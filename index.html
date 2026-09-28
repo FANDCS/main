@@ -286,11 +286,8 @@
         .footer-right a { font-family: 'Google Sans', sans-serif; font-size: 12px; font-weight: 600; text-decoration: none; padding: 8px 16px; border-radius: 12px; background: var(--accent-soft); color: var(--accent); transition: transform 0.2s ease, background 0.2s ease; display: inline-flex; align-items: center; gap: 6px; }
         .footer-right a:hover { transform: translateY(-2px); background: var(--accent); color: #fff; }
 
-        /* PERFORMANCE FIX FOR MOBILE / FIREFOX */
+        /* MOBILE OPTIMIZATION (Animations enabled, lighter backdrop-filter) */
         @media (max-width: 768px) {
-            .blob, .mat-shape, .dot {
-                display: none !important; /* Απενεργοποίηση βαριών background elements στα κινητά για αποφυγή lag στο Firefox */
-            }
             .card, .footer-card, .lang-btn, .lang-dropdown {
                 backdrop-filter: none !important;
                 -webkit-backdrop-filter: none !important;
