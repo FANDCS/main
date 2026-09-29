@@ -3,44 +3,72 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Κενή Σελίδα — FANDCS</title>
-    
+    <title data-i18n="page_title">Κενή Σελίδα — FANDCS</title>
+
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@500;700&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet" />
-    
+
     <link rel="icon" href="https://raw.githubusercontent.com/FANDCS/main/refs/heads/main/media/fandcs-icon.png" type="image/x-icon">
 
     <style>
-        *, *::before, *::after { 
-            margin: 0; 
-            padding: 0; 
-            box-sizing: border-box; 
+        *, *::before, *::after {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
         }
-        
+
+        /* Light Mode (Default) */
         :root {
             --bg: #f8fafc;
-            --surface: #ffffff;
+            --surface: rgba(255, 255, 255, 0.92);
             --surface-variant: #edf2f7;
             --ink-primary: #1e293b;
             --ink-secondary: #475569;
             --ink-muted: #94a3b8;
             --google-blue: #1a73e8;
-            
+            --accent: #1a73e8;
+            --accent-soft: rgba(26, 115, 232, 0.08);
+            --line: rgba(148, 163, 184, 0.25);
+
             --g-blue: rgba(26, 115, 232, 0.1);
             --g-red: rgba(234, 67, 53, 0.1);
             --g-yellow: rgba(251, 188, 5, 0.12);
             --g-green: rgba(52, 168, 83, 0.1);
-            
+
             --shadow-sm: 0 2px 4px rgb(0 0 0 / 0.02), 0 1px 2px rgb(0 0 0 / 0.04);
             --shadow-md: 0 12px 24px -4px rgb(0 0 0 / 0.04), 0 4px 8px -2px rgb(0 0 0 / 0.03);
         }
-        
-        html, body { 
-            min-height: 100%; 
-            background: var(--bg); 
+
+        /* Dark Mode Support */
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --bg: #0b0f19;
+                --surface: rgba(17, 24, 39, 0.92);
+                --surface-variant: #1e293b;
+                --ink-primary: #f8fafc;
+                --ink-secondary: #94a3b8;
+                --ink-muted: #64748b;
+                --google-blue: #38bdf8;
+                --accent: #38bdf8;
+                --accent-soft: rgba(56, 189, 248, 0.12);
+                --line: rgba(100, 116, 139, 0.25);
+
+                --g-blue: rgba(56, 189, 248, 0.15);
+                --g-red: rgba(248, 113, 113, 0.15);
+                --g-yellow: rgba(251, 191, 36, 0.15);
+                --g-green: rgba(74, 222, 128, 0.15);
+
+                --shadow-sm: 0 2px 8px rgba(0,0,0,0.2), 0 1px 3px rgba(0,0,0,0.15);
+                --shadow-md: 0 12px 32px -8px rgba(0,0,0,0.4), 0 4px 12px -2px rgba(0,0,0,0.2);
+            }
         }
-        
+
+        html, body {
+            min-height: 100%;
+            background: var(--bg);
+        }
+
         body {
             color: var(--ink-primary);
             font-family: 'Nunito', sans-serif;
@@ -50,11 +78,127 @@
             justify-content: center;
             min-height: 100svh;
             padding: 1.5rem;
+            padding-top: 56px;
             position: relative;
             overflow-x: hidden;
         }
-        
-        /* ── ΠΑΙΧΝΙΔΙΑΡΙΚΑ ANIMATIONS ΚΙΝΗΣΗΣ ── */
+
+        /* ── LANGUAGE SELECTOR STYLES ── */
+        .lang-selector {
+            position: fixed;
+            top: 56px;
+            right: 24px;
+            z-index: 1000;
+        }
+
+        .lang-btn {
+            background: var(--surface);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid var(--line);
+            border-radius: 12px;
+            padding: 8px 14px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+            box-shadow: var(--shadow-sm);
+            transition: all 0.2s ease;
+            font-family: 'Google Sans', sans-serif;
+            font-weight: 600;
+            font-size: 13px;
+            color: var(--ink-primary);
+        }
+
+        .lang-btn:hover {
+            box-shadow: var(--shadow-md);
+            transform: translateY(-1px);
+        }
+
+        .flag-icon {
+            display: inline-flex;
+            align-items: center;
+            width: 20px;
+            height: 15px;
+            border-radius: 2px;
+            overflow: hidden;
+            box-shadow: 0 0 2px rgba(0,0,0,0.2);
+            flex-shrink: 0;
+        }
+
+        .flag-icon svg {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .lang-btn .arrow {
+            font-size: 9px;
+            color: var(--ink-muted);
+            transition: transform 0.2s ease;
+        }
+
+        .lang-selector.open .lang-btn .arrow {
+            transform: rotate(180deg);
+        }
+
+        .lang-dropdown {
+            position: absolute;
+            top: calc(100% + 8px);
+            right: 0;
+            background: var(--surface);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid var(--line);
+            border-radius: 14px;
+            padding: 6px;
+            box-shadow: var(--shadow-md);
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+            min-width: 130px;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(-8px);
+            transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .lang-selector.open .lang-dropdown {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        .lang-option {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 8px 12px;
+            border-radius: 8px;
+            border: none;
+            background: transparent;
+            color: var(--ink-primary);
+            font-family: 'Nunito', sans-serif;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            width: 100%;
+            text-align: left;
+            transition: background 0.15s ease, color 0.15s ease;
+        }
+
+        .lang-option:hover {
+            background: var(--accent-soft);
+            color: var(--accent);
+        }
+
+        .lang-option.active {
+            background: var(--accent-soft);
+            color: var(--accent);
+            font-weight: 700;
+        }
+
+        /* ── ANIMATIONS ── */
         @keyframes elasticFloat1 {
             0%, 100% { transform: translateY(0) scale(1); }
             50% { transform: translateY(-25px) scale(1.08) rotate(5deg); }
@@ -75,8 +219,6 @@
             0%, 100% { transform: translateX(0) rotate(-20deg) scale(1); }
             50% { transform: translateX(-25px) translateY(-10px) rotate(-10deg) scale(1.05); }
         }
-
-        /* ΜΑΖΕΜΕΝΟ & ΚΟΜΨΟ: Ήπιο Drifting της εικόνας */
         @keyframes subtleDriftingImage {
             0%, 100% { transform: translateY(0) translateX(0) rotate(0deg); }
             25% { transform: translateY(-4px) translateX(2px) rotate(1deg); }
@@ -84,67 +226,61 @@
             75% { transform: translateY(3px) translateX(1px) rotate(0.5deg); }
         }
 
-        /* ── ΤΑ 6 ΒΑΣΙΚΑ ΓΕΩΜΕΤΡΙΚΑ ΣΧΗΜΑΤΑ ── */
-        .geo-shape { 
-            position: absolute; 
-            z-index: 0; 
-            pointer-events: none; 
+        /* ── GEOMETRIC SHAPES ── */
+        .geo-shape {
+            position: absolute;
+            z-index: 0;
+            pointer-events: none;
         }
-        
-        .sh-circle-blue { 
-            top: 8%; left: -20px; 
-            width: 110px; height: 110px; 
-            background: var(--g-blue); 
-            border-radius: 50%; 
+        .sh-circle-blue {
+            top: 8%; left: -20px;
+            width: 110px; height: 110px;
+            background: var(--g-blue);
+            border-radius: 50%;
             animation: elasticFloat1 5s ease-in-out infinite;
         }
-        
-        .sh-triangle-red { 
-            top: 45%; left: -40px; 
-            width: 0; height: 0; 
-            border-left: 50px solid transparent; 
-            border-right: 50px solid transparent; 
-            border-bottom: 86px solid var(--g-red); 
+        .sh-triangle-red {
+            top: 45%; left: -40px;
+            width: 0; height: 0;
+            border-left: 50px solid transparent;
+            border-right: 50px solid transparent;
+            border-bottom: 86px solid var(--g-red);
             transform: rotate(-15deg);
             animation: elasticFloat2 6.5s ease-in-out infinite;
         }
-        
-        .sh-square-yellow { 
-            bottom: 8%; left: -10px; 
-            width: 90px; height: 90px; 
-            background: var(--g-yellow); 
-            border-radius: 20px; 
-            transform: rotate(25deg); 
+        .sh-square-yellow {
+            bottom: 8%; left: -10px;
+            width: 90px; height: 90px;
+            background: var(--g-yellow);
+            border-radius: 20px;
+            transform: rotate(25deg);
             animation: elasticFloat3 7s ease-in-out infinite;
         }
-        
-        .sh-pill-green { 
-            top: 12%; right: -30px; 
-            width: 140px; height: 70px; 
-            background: var(--g-green); 
-            border-radius: 100px; 
-            transform: rotate(-20deg); 
+        .sh-pill-green {
+            top: 12%; right: -30px;
+            width: 140px; height: 70px;
+            background: var(--g-green);
+            border-radius: 100px;
+            transform: rotate(-20deg);
             animation: elasticFloat5 6s ease-in-out infinite;
         }
-        
-        .sh-circle-yellow { 
-            top: 40%; right: -20px; 
-            width: 60px; height: 60px; 
-            background: var(--g-yellow); 
-            border-radius: 50%; 
+        .sh-circle-yellow {
+            top: 40%; right: -20px;
+            width: 60px; height: 60px;
+            background: var(--g-yellow);
+            border-radius: 50%;
             animation: elasticFloat1 4.5s ease-in-out infinite;
         }
-        
-        .sh-square-blue { 
-            bottom: 15%; right: -30px; 
-            width: 100px; height: 100px; 
-            background: var(--g-blue); 
-            border-radius: 24px; 
-            transform: rotate(-10deg); 
+        .sh-square-blue {
+            bottom: 15%; right: -30px;
+            width: 100px; height: 100px;
+            background: var(--g-blue);
+            border-radius: 24px;
+            transform: rotate(-10deg);
             animation: elasticFloat4 5.5s ease-in-out infinite;
         }
-        
-        /* ── ΚΕΝΤΡΙΚΟ ΠΛΑΙΣΙΟ ΜΕ EΛΑΣΤΙΚΟ INTRO ── */
+
+        /* ── CONTAINER ── */
         .container {
             max-width: 430px;
             width: 100%;
@@ -153,13 +289,13 @@
             align-items: center;
             position: relative;
             z-index: 1;
-            background: rgba(255, 255, 255, 0.92);
+            background: var(--surface);
             backdrop-filter: blur(12px);
             -webkit-backdrop-filter: blur(12px);
             padding: 2.5rem 1.75rem;
             border-radius: 32px;
             box-shadow: var(--shadow-md);
-            border: 1px solid rgba(255, 255, 255, 0.7);
+            border: 1px solid var(--line);
             animation: playfulZoomIntro 0.85s cubic-bezier(0.34, 1.6, 0.64, 1) both;
         }
 
@@ -167,10 +303,9 @@
             from { opacity: 0; transform: scale(0.6) translateY(20px); }
             to { opacity: 1; transform: scale(1) translateY(0); }
         }
-        
-        /* ── ΕΙΚΟΝΙΔΙΟ ΜΕ ΗΠΙΑ ΚΙΝΗΣΗ ── */
-        .img-container { 
-            margin-bottom: 1.2rem; 
+
+        .img-container {
+            margin-bottom: 1.2rem;
             animation: subtleDriftingImage 6s ease-in-out infinite;
         }
         .img-container img {
@@ -178,8 +313,7 @@
             height: 155px;
             object-fit: contain;
         }
-        
-        /* ── ΤΥΠΟΓΡΑΦΙΑ ── */
+
         .page-status {
             font-family: 'Google Sans', sans-serif;
             font-size: 0.85rem;
@@ -189,7 +323,7 @@
             margin-bottom: 0.3rem;
             text-transform: uppercase;
         }
-        
+
         h1 {
             font-family: 'Google Sans', sans-serif;
             font-size: 1.9rem;
@@ -199,7 +333,7 @@
             color: var(--ink-primary);
             margin-bottom: 0.6rem;
         }
-        
+
         .desc {
             font-size: 0.92rem;
             font-weight: 500;
@@ -209,12 +343,11 @@
             max-width: 320px;
             margin-bottom: 2rem;
         }
-        
-        /* ── ΚΟΥΜΠΙ (PREMIUM HOVER) ── */
-        .btn-action { 
-            width: 100%; 
+
+        .btn-action {
+            width: 100%;
         }
-        
+
         .btn-home {
             display: flex;
             align-items: center;
@@ -222,7 +355,7 @@
             width: 100%;
             padding: 0.95rem 1.5rem;
             text-decoration: none;
-            background: var(--ink-primary);
+            background: var(--google-blue);
             color: #ffffff;
             font-family: 'Google Sans', sans-serif;
             font-size: 0.95rem;
@@ -231,27 +364,25 @@
             box-shadow: var(--shadow-sm);
             transition: transform 0.25s cubic-bezier(0.2, 0.8, 0.2, 1), background-color 0.2s ease, box-shadow 0.25s ease;
         }
-        
-        .btn-home:hover { 
-            transform: scale(1.03); 
-            background: #2d3748; 
-            box-shadow: var(--shadow-md); 
+
+        .btn-home:hover {
+            transform: scale(1.03);
+            box-shadow: var(--shadow-md);
         }
-        
-        .btn-home:active { 
-            transform: scale(0.97); 
+
+        .btn-home:active {
+            transform: scale(0.97);
         }
-        
-        /* ── FOOTER ── */
-        footer { 
-            margin-top: 2rem; 
+
+        footer {
+            margin-top: 2rem;
             width: 100%;
         }
 
         footer hr {
             border: 0;
             height: 1px;
-            background: var(--surface-variant);
+            background: var(--line);
             margin-bottom: 0.75rem;
         }
 
@@ -260,22 +391,26 @@
             flex-direction: column;
             gap: 0.3rem;
         }
-        
+
         footer p {
             font-size: 0.72rem;
             font-weight: 600;
             color: var(--ink-muted);
             text-align: center;
         }
-        
-        footer a { 
-            color: var(--ink-secondary); 
-            text-decoration: none; 
+
+        footer a {
+            color: var(--ink-secondary);
+            text-decoration: none;
         }
         footer a:hover {
             text-decoration: underline;
         }
-        
+
+        @media (max-width: 520px) {
+            .lang-selector { top: 60px; right: 16px; }
+        }
+
         @media (min-width: 768px) {
             body { padding: 2.5rem; }
             .container { padding: 2.5rem 2rem; border-radius: 36px; }
@@ -289,11 +424,53 @@
     </style>
 </head>
 <body>
+    <div id="kao-banner-container"></div>
+
+    <!-- LANGUAGE SELECTOR -->
+    <div class="lang-selector" id="langSelector">
+        <button class="lang-btn" id="langBtn" aria-label="Select Language">
+            <span class="flag-icon" id="currentFlag">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 480">
+                    <path fill="#0d5eaf" d="M0 0h640v480H0z"/>
+                    <path fill="#fff" d="M0 53.3h640v53.4H0zm0 106.6h640v53.4H0zm0 106.7h640v53.3H0zm0 106.7h640v53.3H0z"/>
+                    <path fill="#0d5eaf" d="M0 0h240v240H0z"/>
+                    <path fill="#fff" d="M80 0h80v240H80zM0 80h240v80H0z"/>
+                </svg>
+            </span>
+            <span class="lang-code" id="currentLangCode">EL</span>
+            <span class="arrow">▼</span>
+        </button>
+        <div class="lang-dropdown" id="langDropdown">
+            <button class="lang-option" data-lang="el">
+                <span class="flag-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 480">
+                        <path fill="#0d5eaf" d="M0 0h640v480H0z"/>
+                        <path fill="#fff" d="M0 53.3h640v53.4H0zm0 106.6h640v53.4H0zm0 106.7h640v53.3H0zm0 106.7h640v53.3H0z"/>
+                        <path fill="#0d5eaf" d="M0 0h240v240H0z"/>
+                        <path fill="#fff" d="M80 0h80v240H80zM0 80h240v80H0z"/>
+                    </svg>
+                </span>
+                <span>Ελληνικά</span>
+            </button>
+            <button class="lang-option" data-lang="en">
+                <span class="flag-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 480">
+                        <path fill="#012169" d="M0 0h640v480H0z"/>
+                        <path fill="#fff" d="m0 0 640 480M640 0 0 480" stroke="#fff" stroke-width="60"/>
+                        <path stroke="#c8102e" stroke-width="40" d="m0 0 640 480M640 0 0 480"/>
+                        <path stroke="#fff" stroke-width="100" d="M320 0v480M0 240h640"/>
+                        <path stroke="#c8102e" stroke-width="60" d="M320 0v480M0 240h640"/>
+                    </svg>
+                </span>
+                <span>English</span>
+            </button>
+        </div>
+    </div>
 
     <div class="geo-shape sh-circle-blue"></div>
     <div class="geo-shape sh-triangle-red"></div>
     <div class="geo-shape sh-square-yellow"></div>
-    
+
     <div class="geo-shape sh-pill-green"></div>
     <div class="geo-shape sh-circle-yellow"></div>
     <div class="geo-shape sh-square-blue"></div>
@@ -302,34 +479,153 @@
         <div class="img-container">
             <img src="https://raw.githubusercontent.com/FANDCS/main/refs/heads/main/media/page.png" alt="blank_page_img">
         </div>
-        
-        <p class="page-status">FANDCS</p>
-        <h1>Κενή σελίδα</h1>
-        
-        <p class="desc">
+
+        <p class="page-status" data-i18n="page_status">FANDCS</p>
+        <h1 data-i18n="heading">Κενή σελίδα</h1>
+
+        <p class="desc" data-i18n="desc">
             Αυτή η σελίδα δεν περιέχει κάποιο περιεχόμενο ακόμα. Μπορείς να επιστρέψεις στην αρχική πλοήγηση.
         </p>
-        
+
         <div class="btn-action">
-            <a href="https://fandcs.github.io/main/" class="btn-home">
+            <a href="https://fandcs.github.io/main/" class="btn-home" data-i18n="btn_home">
                 Μετάβαση στην αρχική
             </a>
         </div>
-        
+
         <footer>
             <hr>
             <div class="footer-inner">
                 <p>
-                    <span class="footer-left">GitHub Οργανισμός</span>
+                    <span class="footer-left" data-i18n="footer_org">GitHub Οργανισμός</span>
                     <a href="https://github.com/FANDCS" target="_blank" rel="noopener">FANDCS</a>
                 </p>
                 <p>
-                    Εικόνες από flaticon designer
+                    <span data-i18n="footer_designer">Εικόνα από flaticon designer</span>
                     <a href="https://www.flaticon.com/authors/creatype" target="_blank" rel="noopener">Creatype</a>
                 </p>
             </div>
         </footer>
     </div>
 
+    <script>
+        const flagsSVG = {
+            el: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 480"><path fill="#0d5eaf" d="M0 0h640v480H0z"/><path fill="#fff" d="M0 53.3h640v53.4H0zm0 106.6h640v53.4H0zm0 106.7h640v53.3H0zm0 106.7h640v53.3H0z"/><path fill="#0d5eaf" d="M0 0h240v240H0z"/><path fill="#fff" d="M80 0h80v240H80zM0 80h240v80H0z"/></svg>`,
+            en: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 480"><path fill="#012169" d="M0 0h640v480H0z"/><path fill="#fff" d="m0 0 640 480M640 0 0 480" stroke="#fff" stroke-width="60"/><path stroke="#c8102e" stroke-width="40" d="m0 0 640 480M640 0 0 480"/><path stroke="#fff" stroke-width="100" d="M320 0v480M0 240h640"/><path stroke="#c8102e" stroke-width="60" d="M320 0v480M0 240h640"/></svg>`
+        };
+
+        const translations = {
+            el: {
+                page_title: "Κενή Σελίδα — FANDCS",
+                page_status: "FANDCS",
+                heading: "Κενή σελίδα",
+                desc: "Αυτή η σελίδα δεν περιέχει κάποιο περιεχόμενο ακόμα. Μπορείς να επιστρέψεις στην αρχική πλοήγηση.",
+                btn_home: "Μετάβαση στην αρχική",
+                footer_org: "GitHub Οργανισμός",
+                footer_designer: "Εικόνα από flaticon designer"
+            },
+            en: {
+                page_title: "Blank Page — FANDCS",
+                page_status: "FANDCS",
+                heading: "Blank page",
+                desc: "This page doesn't contain any content yet. You can return to the home navigation.",
+                btn_home: "Go to home",
+                footer_org: "GitHub Organization",
+                footer_designer: "Icon by flaticon designer"
+            }
+        };
+
+        const langSelector = document.getElementById('langSelector');
+        const langBtn = document.getElementById('langBtn');
+        const currentFlag = document.getElementById('currentFlag');
+        const currentLangCode = document.getElementById('currentLangCode');
+        const langOptions = document.querySelectorAll('.lang-option');
+
+        function updateBanner(lang) {
+            const container = document.getElementById('kao-banner-container');
+            if (!container) return;
+            container.innerHTML = '';
+            const iframe = document.createElement('iframe');
+            iframe.style.position = 'fixed';
+            iframe.style.top = '0';
+            iframe.style.left = '0';
+            iframe.style.width = '100%';
+            iframe.style.height = '40px';
+            iframe.style.zIndex = '99999';
+            iframe.style.border = 'none';
+            iframe.style.overflow = 'hidden';
+            iframe.scrolling = 'no';
+            container.appendChild(iframe);
+            const doc = iframe.contentDocument || iframe.contentWindow.document;
+            doc.open();
+            doc.write(`
+                <!DOCTYPE html>
+                <html>
+                <head><style>body { margin: 0; background: transparent; }</style></head>
+                <body><script src="https://keepandroidopen.org/banner.js?size=minimal&animation=off&lang=${lang}"><\/script></body>
+                </html>
+            `);
+            doc.close();
+        }
+
+        function getPreferredLanguage() {
+            const savedLang = localStorage.getItem('fandcs_lang');
+            if (savedLang && (savedLang === 'el' || savedLang === 'en')) {
+                return savedLang;
+            }
+            const sysLang = (navigator.language || navigator.userLanguage || '').toLowerCase();
+            return sysLang.startsWith('el') ? 'el' : 'en';
+        }
+
+        function setLanguage(lang) {
+            document.documentElement.lang = lang;
+            localStorage.setItem('fandcs_lang', lang);
+
+            currentFlag.innerHTML = flagsSVG[lang];
+            currentLangCode.textContent = lang.toUpperCase();
+
+            langOptions.forEach(opt => {
+                if (opt.getAttribute('data-lang') === lang) {
+                    opt.classList.add('active');
+                } else {
+                    opt.classList.remove('active');
+                }
+            });
+
+            document.querySelectorAll('[data-i18n]').forEach(element => {
+                const key = element.getAttribute('data-i18n');
+                if (translations[lang] && translations[lang][key]) {
+                    if (element.tagName === 'TITLE') {
+                        document.title = translations[lang][key];
+                    } else {
+                        element.textContent = translations[lang][key];
+                    }
+                }
+            });
+
+            updateBanner(lang);
+        }
+
+        langBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            langSelector.classList.toggle('open');
+        });
+
+        langOptions.forEach(option => {
+            option.addEventListener('click', (e) => {
+                e.stopPropagation();
+                const selectedLang = option.getAttribute('data-lang');
+                setLanguage(selectedLang);
+                langSelector.classList.remove('open');
+            });
+        });
+
+        document.addEventListener('click', () => {
+            langSelector.classList.remove('open');
+        });
+
+        const initialLang = getPreferredLanguage();
+        setLanguage(initialLang);
+    </script>
 </body>
 </html>
