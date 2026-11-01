@@ -1,0 +1,690 @@
+<!DOCTYPE html>
+<html lang="el">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title data-i18n="page_title">Credits — FANDCS</title>
+    <link rel="icon" href="https://raw.githubusercontent.com/FANDCS/main/refs/heads/main/media/fandcs-icon.png" type="image/x-icon">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500;700&family=Nunito:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <style>
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+        :root {
+            --bg: #f8fafc;
+            --surface: rgba(255, 255, 255, 0.82);
+            --ink-primary: #1e293b;
+            --ink-secondary: #475569;
+            --ink-muted: #94a3b8;
+            --accent: #1a73e8;
+            --accent-soft: rgba(26, 115, 232, 0.08);
+            --line: rgba(148, 163, 184, 0.25);
+            --shadow-sm: 0 2px 8px rgba(0,0,0,0.04), 0 1px 3px rgba(0,0,0,0.03);
+            --shadow-md: 0 12px 32px -8px rgba(0,0,0,0.08), 0 4px 12px -2px rgba(0,0,0,0.04);
+        }
+
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --bg: #0b0f19;
+                --surface: rgba(17, 24, 39, 0.82);
+                --ink-primary: #f8fafc;
+                --ink-secondary: #94a3b8;
+                --ink-muted: #64748b;
+                --accent: #38bdf8;
+                --accent-soft: rgba(56, 189, 248, 0.12);
+                --line: rgba(100, 116, 139, 0.25);
+                --shadow-sm: 0 2px 8px rgba(0,0,0,0.2), 0 1px 3px rgba(0,0,0,0.15);
+                --shadow-md: 0 12px 32px -8px rgba(0,0,0,0.4), 0 4px 12px -2px rgba(0,0,0,0.2);
+            }
+        }
+
+        html, body { min-height: 100%; background: var(--bg); }
+
+        body {
+            color: var(--ink-primary);
+            font-family: 'Nunito', sans-serif;
+            font-size: 15px;
+            line-height: 1.7;
+            position: relative;
+            overflow-x: hidden;
+            padding-top: 40px;
+        }
+
+        /* ── LANGUAGE SELECTOR ── */
+        .lang-selector { position: fixed; top: 72px; right: 24px; z-index: 1000; }
+
+        .lang-btn {
+            background: var(--surface);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid var(--line);
+            border-radius: 12px;
+            padding: 8px 14px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+            box-shadow: var(--shadow-sm);
+            transition: all 0.2s ease;
+            font-family: 'Google Sans', sans-serif;
+            font-weight: 600;
+            font-size: 13px;
+            color: var(--ink-primary);
+        }
+        .lang-btn:hover { box-shadow: var(--shadow-md); transform: translateY(-1px); }
+
+        .flag-icon {
+            display: inline-flex;
+            align-items: center;
+            width: 20px;
+            height: 15px;
+            border-radius: 2px;
+            overflow: hidden;
+            box-shadow: 0 0 2px rgba(0,0,0,0.2);
+            flex-shrink: 0;
+        }
+        .flag-icon svg { width: 100%; height: 100%; object-fit: cover; }
+
+        .lang-btn .arrow { font-size: 9px; color: var(--ink-muted); transition: transform 0.2s ease; }
+        .lang-selector.open .lang-btn .arrow { transform: rotate(180deg); }
+
+        .lang-dropdown {
+            position: absolute;
+            top: calc(100% + 8px);
+            right: 0;
+            background: var(--surface);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid var(--line);
+            border-radius: 14px;
+            padding: 6px;
+            box-shadow: var(--shadow-md);
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+            min-width: 130px;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(-8px);
+            transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .lang-selector.open .lang-dropdown { opacity: 1; visibility: visible; transform: translateY(0); }
+
+        .lang-option {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 8px 12px;
+            border-radius: 8px;
+            border: none;
+            background: transparent;
+            color: var(--ink-primary);
+            font-family: 'Nunito', sans-serif;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            width: 100%;
+            text-align: left;
+            transition: background 0.15s ease, color 0.15s ease;
+        }
+        .lang-option:hover, .lang-option.active { background: var(--accent-soft); color: var(--accent); }
+        .lang-option.active { font-weight: 700; }
+
+        /* ── BACKGROUND ── */
+        .blob { position: fixed; z-index: 0; pointer-events: none; filter: blur(70px); opacity: 0.35; }
+        @keyframes drift1 { 0%, 100% { transform: translate(0,0) scale(1) rotate(0deg); } 33% { transform: translate(40px,-30px) scale(1.08) rotate(8deg); } 66% { transform: translate(-20px,20px) scale(0.95) rotate(-5deg); } }
+        @keyframes drift2 { 0%, 100% { transform: translate(0,0) scale(1) rotate(0deg); } 33% { transform: translate(-35px,25px) scale(1.05) rotate(-10deg); } 66% { transform: translate(25px,-15px) scale(0.92) rotate(6deg); } }
+        @keyframes drift3 { 0%, 100% { transform: translate(0,0) scale(1); } 50% { transform: translate(15px,-40px) scale(1.12) rotate(12deg); } }
+
+        .blob-1 { top: -12%; left: -15%; width: 550px; height: 550px; background: radial-gradient(circle at 30% 30%, rgba(45, 212, 191, 0.4), rgba(56, 189, 248, 0.15)); border-radius: 60% 40% 50% 50% / 50% 50% 40% 60%; animation: drift1 20s ease-in-out infinite; }
+        .blob-2 { bottom: -18%; right: -15%; width: 650px; height: 600px; background: radial-gradient(circle at 70% 70%, rgba(251, 146, 60, 0.25), rgba(244, 114, 182, 0.1)); border-radius: 45% 55% 60% 40% / 55% 45% 55% 45%; animation: drift2 24s ease-in-out infinite; }
+        .blob-3 { top: 45%; left: -10%; width: 380px; height: 380px; background: radial-gradient(circle at 50% 50%, rgba(167, 139, 250, 0.25), rgba(139, 92, 246, 0.08)); border-radius: 55% 45% 40% 60% / 45% 55% 50% 50%; animation: drift3 17s ease-in-out infinite; }
+
+        .mat-shape { position: fixed; z-index: 1; pointer-events: none; }
+        @keyframes matFloat1 { 0%, 100% { transform: translateY(0) rotate(0deg); } 50% { transform: translateY(-18px) rotate(6deg); } }
+        @keyframes matFloat2 { 0%, 100% { transform: translateX(0) rotate(-12deg); } 50% { transform: translateX(15px) translateY(8px) rotate(-4deg); } }
+        .mat-circle-blue { top: 12%; left: 6%; width: 90px; height: 90px; background: linear-gradient(135deg, rgba(66, 133, 244, 0.18), rgba(26, 115, 232, 0.08)); border: 2px solid rgba(66, 133, 244, 0.25); border-radius: 50%; animation: matFloat1 6s ease-in-out infinite; }
+        .mat-square-yellow { bottom: 18%; left: 10%; width: 75px; height: 75px; background: linear-gradient(135deg, rgba(251, 188, 5, 0.16), rgba(251, 188, 5, 0.06)); border: 2px solid rgba(251, 188, 5, 0.22); border-radius: 18px; transform: rotate(22deg); animation: matFloat2 8s ease-in-out infinite; }
+        .mat-pill-green { top: 16%; right: 6%; width: 120px; height: 55px; background: linear-gradient(135deg, rgba(52, 168, 83, 0.16), rgba(52, 168, 83, 0.06)); border: 2px solid rgba(52, 168, 83, 0.22); border-radius: 100px; transform: rotate(-18deg); animation: matFloat2 6.5s ease-in-out infinite; }
+
+        .dot { position: fixed; z-index: 2; pointer-events: none; border-radius: 50%; opacity: 0.35; }
+        @keyframes pulse { 0%, 100% { transform: scale(1); opacity: 0.35; } 50% { transform: scale(1.3); opacity: 0.12; } }
+        .dot-1 { top: 22%; left: 14%; width: 10px; height: 10px; background: #2dd4bf; animation: pulse 4s ease-in-out infinite; }
+        .dot-2 { top: 68%; right: 14%; width: 7px; height: 7px; background: #fb923c; animation: pulse 5s ease-in-out infinite 1s; }
+
+        /* ── LAYOUT ── */
+        .wrap { position: relative; z-index: 10; max-width: 720px; margin: 0 auto; padding: 0 24px; width: 100%; }
+
+        header { padding: 56px 0 40px; animation: fadeInDown 0.7s ease both; }
+        @keyframes fadeInDown { from { opacity: 0; transform: translateY(-20px); } to { opacity: 1; transform: translateY(0); } }
+
+        .brand { display: inline-flex; align-items: center; gap: 16px; text-decoration: none; color: inherit; }
+        .brand-icon { width: 40px; height: 40px; display: flex; align-items: center; justify-content: center; transition: transform 0.3s ease; }
+        .brand:hover .brand-icon { transform: scale(1.05) rotate(-3deg); }
+        .brand-icon img { width: 40px; height: 40px; object-fit: contain; }
+        .brand-text h1 { font-family: 'Google Sans', sans-serif; font-size: 32px; font-weight: 700; letter-spacing: -0.03em; color: var(--ink-primary); line-height: 1.1; }
+        .brand-text span { display: block; font-family: 'Nunito', sans-serif; font-size: 12px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: var(--accent); margin-top: 4px; }
+
+        .card {
+            background: var(--surface);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid var(--line);
+            border-radius: 24px;
+            padding: 32px;
+            margin-bottom: 24px;
+            box-shadow: var(--shadow-sm);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            animation: fadeInUp 0.6s ease both;
+        }
+        .card:hover { box-shadow: var(--shadow-md); }
+        @keyframes fadeInUp { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: translateY(0); } }
+        .card:nth-child(1) { animation-delay: 0.1s; }
+        .card:nth-child(2) { animation-delay: 0.2s; }
+        .card:nth-child(3) { animation-delay: 0.3s; }
+        .card:nth-child(4) { animation-delay: 0.4s; }
+        .card:nth-child(5) { animation-delay: 0.5s; }
+
+        .section-title {
+            font-family: 'Google Sans', sans-serif;
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            color: var(--accent);
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .section-title::after { content: ''; flex: 1; height: 1px; background: linear-gradient(90deg, var(--line), transparent); }
+
+        .about { font-size: 15px; color: var(--ink-secondary); line-height: 1.8; }
+        .about strong { color: var(--ink-primary); font-weight: 700; }
+
+        .credit-list { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+        .credit-list > li { border-radius: 16px; transition: transform 0.2s ease, background 0.2s ease; }
+        .credit-list > li:hover { background: var(--accent-soft); transform: translateX(4px); }
+        .credit-list a, .credit-list .credit-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 16px;
+            padding: 14px 16px;
+            text-decoration: none;
+            color: var(--ink-primary);
+            border-radius: 16px;
+            border: 1px solid transparent;
+            transition: border-color 0.2s ease, box-shadow 0.2s ease;
+        }
+        .credit-list a:hover { border-color: var(--line); box-shadow: var(--shadow-sm); }
+        .credit-main { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
+        .credit-name { font-family: 'Google Sans', sans-serif; font-size: 14px; font-weight: 500; color: var(--ink-primary); }
+        .credit-desc { font-size: 12px; color: var(--ink-muted); font-weight: 400; }
+        .credit-arrow {
+            width: 32px;
+            height: 32px;
+            border-radius: 10px;
+            background: var(--accent-soft);
+            color: var(--accent);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+            flex-shrink: 0;
+            transition: transform 0.25s cubic-bezier(0.34, 1.6, 0.64, 1), background 0.2s ease;
+        }
+        .credit-list a:hover .credit-arrow { background: var(--accent); color: #fff; transform: translateX(3px) scale(1.1); }
+
+        /* ── EXPANDABLE CONTRIBUTORS ── */
+        .person details { width: 100%; }
+        .person summary { list-style: none; cursor: pointer; }
+        .person summary::-webkit-details-marker { display: none; }
+        .person details[open] > summary .credit-arrow { transform: rotate(180deg); background: var(--accent); color: #fff; }
+
+        .sub-list { list-style: none; display: flex; flex-direction: column; gap: 8px; margin: 4px 0 8px 24px; padding-left: 14px; border-left: 2px solid var(--line); }
+        .sub-list > li {
+            border: 1px solid var(--line);
+            border-radius: 14px;
+            background: var(--surface);
+            transition: border-color 0.2s ease, background 0.2s ease;
+        }
+        .sub-list > li:hover { border-color: var(--accent); background: var(--accent-soft); }
+        .sub-list a { padding: 10px 12px; border-radius: 14px; border: none; }
+        .sub-list a:hover { border: none; box-shadow: none; }
+        .sub-list .credit-name { font-size: 13px; }
+        .sub-list .credit-desc { font-size: 12px; color: var(--ink-muted); }
+        .sub-list .credit-arrow { width: 26px; height: 26px; font-size: 12px; }
+
+        .roles { display: flex; flex-direction: column; gap: 6px; padding: 4px 12px 12px; }
+        .role-box { border: 1px solid var(--line); border-radius: 12px; padding: 8px 12px; display: flex; flex-direction: column; gap: 4px; }
+        .preview { width: 100%; max-width: 360px; border-radius: 10px; border: 1px solid var(--line); display: block; margin-top: 6px; }
+
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 16px;
+            font-family: 'Google Sans', sans-serif;
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--accent);
+            text-decoration: none;
+            padding: 8px 14px;
+            border-radius: 12px;
+            background: var(--accent-soft);
+            transition: transform 0.2s ease, background 0.2s ease;
+        }
+        .back-link:hover { transform: translateY(-2px); background: var(--accent); color: #fff; }
+
+        footer { padding: 32px 0 48px; animation: fadeInUp 0.6s 0.5s ease both; }
+        .footer-card {
+            background: var(--surface);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid var(--line);
+            border-radius: 20px;
+            padding: 20px 28px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 16px;
+            flex-wrap: wrap;
+            box-shadow: var(--shadow-sm);
+        }
+        .footer-left { font-size: 12px; color: var(--ink-muted); font-weight: 500; }
+        .footer-right a {
+            font-family: 'Google Sans', sans-serif;
+            font-size: 12px;
+            font-weight: 600;
+            text-decoration: none;
+            padding: 8px 16px;
+            border-radius: 12px;
+            background: var(--accent-soft);
+            color: var(--accent);
+            transition: transform 0.2s ease, background 0.2s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .footer-right a:hover { transform: translateY(-2px); background: var(--accent); color: #fff; }
+
+        @media (max-width: 768px) {
+            .card, .footer-card, .lang-btn, .lang-dropdown {
+                backdrop-filter: none !important;
+                -webkit-backdrop-filter: none !important;
+            }
+        }
+
+        @media (max-width: 520px) {
+            .lang-selector { top: 64px; right: 16px; }
+            .brand-text h1 { font-size: 26px; }
+            .card { padding: 24px; border-radius: 20px; }
+            .footer-card { flex-direction: column; text-align: center; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ═══════ LANGUAGE SELECTOR ═══════ -->
+    <div class="lang-selector" id="langSelector">
+        <button class="lang-btn" id="langBtn" aria-label="Select Language">
+            <span class="flag-icon" id="currentFlag"></span>
+            <span id="currentLangCode">EL</span>
+            <span class="arrow">▼</span>
+        </button>
+        <div class="lang-dropdown" id="langDropdown">
+            <button class="lang-option" data-lang="el">
+                <span class="flag-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 480">
+                        <path fill="#0d5eaf" d="M0 0h640v480H0z"/>
+                        <path fill="#fff" d="M0 53.3h640v53.4H0zm0 106.6h640v53.4H0zm0 106.7h640v53.3H0zm0 106.7h640v53.3H0z"/>
+                        <path fill="#0d5eaf" d="M0 0h240v240H0z"/>
+                        <path fill="#fff" d="M80 0h80v240H80zM0 80h240v80H0z"/>
+                    </svg>
+                </span>
+                <span>Ελληνικά</span>
+            </button>
+            <button class="lang-option" data-lang="en">
+                <span class="flag-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 480">
+                        <path fill="#012169" d="M0 0h640v480H0z"/>
+                        <path fill="#fff" d="m0 0 640 480M640 0 0 480" stroke="#fff" stroke-width="60"/>
+                        <path stroke="#c8102e" stroke-width="40" d="m0 0 640 480M640 0 0 480"/>
+                        <path stroke="#fff" stroke-width="100" d="M320 0v480M0 240h640"/>
+                        <path stroke="#c8102e" stroke-width="60" d="M320 0v480M0 240h640"/>
+                    </svg>
+                </span>
+                <span>English</span>
+            </button>
+        </div>
+    </div>
+
+    <!-- ═══════ BACKGROUND LAYERS ═══════ -->
+    <div class="blob blob-1"></div>
+    <div class="blob blob-2"></div>
+    <div class="blob blob-3"></div>
+    <div class="mat-shape mat-circle-blue"></div>
+    <div class="mat-shape mat-square-yellow"></div>
+    <div class="mat-shape mat-pill-green"></div>
+    <div class="dot dot-1"></div>
+    <div class="dot dot-2"></div>
+
+    <div class="wrap">
+
+        <header>
+            <a href="https://fandcs.github.io/main/" class="brand">
+                <div class="brand-icon">
+                    <img src="https://raw.githubusercontent.com/FANDCS/main/refs/heads/main/media/fandcs-icon.png" alt="FANDCS">
+                </div>
+                <div class="brand-text">
+                    <h1>FANDCS</h1>
+                    <span data-i18n="brand_sub">Free And No Data Collection Softwares</span>
+                </div>
+            </a>
+        </header>
+
+        <main>
+            <!-- INTRO -->
+            <section class="card">
+                <a href="https://fandcs.github.io/main/" class="back-link">← <span data-i18n="back">Αρχική</span></a>
+                <div class="section-title" data-i18n="sec_intro">credits</div>
+                <div class="about" data-i18n="intro_text">
+                    Ευχαριστούμε όλους τους ανθρώπους και τις υπηρεσίες που συνέβαλαν στην δημιουργία όλων των έργων του <strong>FANDCS</strong>.
+                </div>
+            </section>
+
+            <!-- CONTRIBUTORS -->
+            <section class="card">
+                <div class="section-title" data-i18n="sec_team">συντελεστές</div>
+                <ul class="credit-list">
+
+                    <li>
+                        <a href="https://fandcs.github.io/main/credits/Android_Creator_credits.html" target="_blank" rel="noopener">
+                            <div class="credit-main">
+                                <span class="credit-name">Android_Creator</span>
+                                <span class="credit-desc" data-i18n="role_dev">Developer</span>
+                            </div>
+                            <span class="credit-arrow">↗</span>
+                        </a>
+                    </li>
+
+                    <li class="person">
+                        <details>
+                            <summary class="credit-row">
+                                <div class="credit-main">
+                                    <span class="credit-name">Κώστας Κουνελάκης</span>
+                                    <span class="credit-desc" data-i18n="role_founder">Founder, Web App Developer</span>
+                                </div>
+                                <span class="credit-arrow">▼</span>
+                            </summary>
+                            <ul class="sub-list">
+                                <li><a href="https://fandcs.github.io/main/History_Video_and_Lessons.html" target="_blank" rel="noopener"><div class="credit-main"><span class="credit-name" data-i18n="p_history">Βίντεο και Μαθήματα Ιστορίας</span><span class="credit-desc" data-i18n="role_founder">Founder, Web App Developer</span></div><span class="credit-arrow">↗</span></a></li>
+                            </ul>
+                        </details>
+                    </li>
+
+                    <li class="person">
+                        <details>
+                            <summary class="credit-row">
+                                <div class="credit-main">
+                                    <span class="credit-name">Βαγγέλης Κελεσίδης</span>
+                                    <span class="credit-desc" data-i18n="role_founder">Teacher, Web App Developer</span>
+                                </div>
+                                <span class="credit-arrow">▼</span>
+                            </summary>
+                            <ul class="sub-list">
+                                <li><a href="https://fandcs.github.io/main/History_Video_and_Lessons.html" target="_blank" rel="noopener"><div class="credit-main"><span class="credit-name" data-i18n="p_history">Βίντεο και Μαθήματα Ιστορίας</span><span class="credit-desc" data-i18n="role_founder">Teacher, Web App Developer</span></div><span class="credit-arrow">↗</span></a></li>
+                            </ul>
+                        </details>
+                    </li>
+
+                    <li class="person">
+                        <details>
+                            <summary class="credit-row">
+                                <div class="credit-main">
+                                    <span class="credit-name">Alex_632gr</span>
+                                    <span class="credit-desc" data-i18n="role_designer">Designer</span>
+                                </div>
+                                <span class="credit-arrow">▼</span>
+                            </summary>
+                            <ul class="sub-list">
+                                <li><a href="https://www.instagram.com/alex632gr_/" target="_blank" rel="noopener"><div class="credit-main"><span class="credit-name">instagram.com/alex632gr_</span><span class="credit-desc">Instagram</span></div><span class="credit-arrow">↗</span></a></li>
+                                <li>
+                                    <a href="https://github.com/FANDCS/Callen_App" target="_blank" rel="noopener"><div class="credit-main"><span class="credit-name" data-i18n="app_icon">App Icon</span><span class="credit-desc" data-i18n="project_lbl">Project</span></div><span class="credit-arrow">↗</span></a>
+                                    <div class="roles">
+                                        <div class="role-box">
+                                            <span class="credit-name">Alex_632gr</span>
+                                            <span class="credit-desc" data-i18n="role_designer">Designer</span>
+                                        </div>
+                                        <div class="role-box">
+                                            <span class="credit-name">bannerfin</span>
+                                            <span class="credit-desc" data-i18n="role_designer_f">Σχεδιάστρια</span>
+                                            <a href="https://github.com/FANDCS/main/blob/main/media/bannerfin.jpg.kra" target="_blank" rel="noopener"><img class="preview" src="https://fandcs.github.io/main/media/bannerfin.jpg" alt="bannerfin preview"></a>
+                                        </div>
+                                    </div>
+                                </li>
+                            </ul>
+                        </details>
+                    </li>
+
+                </ul>
+            </section>
+
+            <!-- ASSETS -->
+            <section class="card">
+                <div class="section-title" data-i18n="sec_assets">Εικόνες Τρίτων</div>
+                <ul class="credit-list">
+                    <li>
+                        <a href="https://www.flaticon.com/authors/muhammad-ali" target="_blank" rel="noopener">
+                            <div class="credit-main">
+                                <span class="credit-name">Muhammad Ali</span>
+                                <span class="credit-desc" data-i18n="ali_desc">Εικόνα σελίδας 404 · Flaticon</span>
+                            </div>
+                            <span class="credit-arrow">↗</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://www.flaticon.com/authors/creatype" target="_blank" rel="noopener">
+                            <div class="credit-main">
+                                <span class="credit-name">Creatype</span>
+                                <span class="credit-desc" data-i18n="creatype_desc">Εικόνα κενής σελίδας · Flaticon</span>
+                            </div>
+                            <span class="credit-arrow">↗</span>
+                        </a>
+                    </li>
+                </ul>
+            </section>
+
+            <!-- SERVICES -->
+            <section class="card">
+                <div class="section-title" data-i18n="sec_tools">υπηρεσίες</div>
+                <ul class="credit-list">
+                    <li>
+                        <a href="https://claude.ai" target="_blank" rel="noopener">
+                            <div class="credit-main">
+                                <span class="credit-name">Claude</span>
+                                <span class="credit-desc" data-i18n="claude_desc">Βοήθεια για developing</span>
+                            </div>
+                            <span class="credit-arrow">↗</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://gemini.google.com" target="_blank" rel="noopener">
+                            <div class="credit-main">
+                                <span class="credit-name">Gemini</span>
+                                <span class="credit-desc" data-i18n="gemini_desc">Βοήθεια για developing</span>
+                            </div>
+                            <span class="credit-arrow">↗</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://pages.github.com" target="_blank" rel="noopener">
+                            <div class="credit-main">
+                                <span class="credit-name">GitHub Pages</span>
+                                <span class="credit-desc" data-i18n="pages_desc">Φιλοξενία των ιστοσελίδων μας</span>
+                            </div>
+                            <span class="credit-arrow">↗</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://www.flaticon.com" target="_blank" rel="noopener">
+                            <div class="credit-main">
+                                <span class="credit-name">Flaticon</span>
+                                <span class="credit-desc" data-i18n="flaticon_desc">Πηγή εικόνων</span>
+                            </div>
+                            <span class="credit-arrow">↗</span>
+                        </a>
+                    </li>
+                </ul>
+            </section>
+
+            <!-- FONTS -->
+            <section class="card">
+                <div class="section-title" data-i18n="sec_fonts">γραμματοσειρές</div>
+                <ul class="credit-list">
+                    <li>
+                        <a href="https://fonts.google.com" target="_blank" rel="noopener">
+                            <div class="credit-main">
+                                <span class="credit-name">Google Sans</span>
+                                <span class="credit-desc" data-i18n="fonts_desc">Google Fonts</span>
+                            </div>
+                            <span class="credit-arrow">↗</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://fonts.google.com" target="_blank" rel="noopener">
+                            <div class="credit-main">
+                                <span class="credit-name">Nunito</span>
+                                <span class="credit-desc" data-i18n="fonts_desc">Google Fonts</span>
+                            </div>
+                            <span class="credit-arrow">↗</span>
+                        </a>
+                    </li>
+                </ul>
+            </section>
+        </main>
+
+        <footer>
+            <div class="footer-card">
+                <span class="footer-left" data-i18n="footer_text">© 2026 FANDCS · Τελευταία ενημέρωση: 1/11/2026</span>
+                <span class="footer-right">
+                    <a href="https://github.com/FANDCS" target="_blank" rel="noopener">github.com/FANDCS</a>
+                </span>
+            </div>
+        </footer>
+    </div>
+
+    <script>
+        const flagsSVG = {
+            el: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 480"><path fill="#0d5eaf" d="M0 0h640v480H0z"/><path fill="#fff" d="M0 53.3h640v53.4H0zm0 106.6h640v53.4H0zm0 106.7h640v53.3H0zm0 106.7h640v53.3H0z"/><path fill="#0d5eaf" d="M0 0h240v240H0z"/><path fill="#fff" d="M80 0h80v240H80zM0 80h240v80H0z"/></svg>`,
+            en: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 480"><path fill="#012169" d="M0 0h640v480H0z"/><path fill="#fff" d="m0 0 640 480M640 0 0 480" stroke="#fff" stroke-width="60"/><path stroke="#c8102e" stroke-width="40" d="m0 0 640 480M640 0 0 480"/><path stroke="#fff" stroke-width="100" d="M320 0v480M0 240h640"/><path stroke="#c8102e" stroke-width="60" d="M320 0v480M0 240h640"/></svg>`
+        };
+
+        const translations = {
+            el: {
+                page_title: "Credits — FANDCS",
+                brand_sub: "Free And No Data Collection Softwares",
+                back: "Αρχική",
+                sec_intro: "credits",
+                intro_text: 'Ευχαριστούμε όλους τους ανθρώπους και τις υπηρεσίες που συνέβαλαν στην δημιουργία όλων των έργων του <strong>FANDCS</strong>.',
+                sec_team: "συντελεστές",
+                role_dev: "Προγραμματιστής",
+                role_founder: "Δάσκαλος, Web App Developer",
+                role_designer: "Σχεδιαστής",
+                role_designer_f: "Σχεδιάστρια",
+                app_icon: "App Icon",
+                project_lbl: "Project",
+                p_history: "Βίντεο και Μαθήματα Ιστορίας",
+                sec_assets: "Εικόνες Τρίτων",
+                ali_desc: "Εικόνα σελίδας 404 · Flaticon",
+                creatype_desc: "Εικόνα κενής σελίδας · Flaticon",
+                sec_tools: "υπηρεσίες",
+                claude_desc: "Βοήθεια για developing",
+                gemini_desc: "Βοήθεια για developing",
+                pages_desc: "Φιλοξενία των ιστοσελίδων μας",
+                flaticon_desc: "Πηγή εικόνων",
+                sec_fonts: "γραμματοσειρές",
+                fonts_desc: "Google Fonts",
+                footer_text: "© 2026 FANDCS · Τελευταία ενημέρωση: 1/11/2026"
+            },
+            en: {
+                page_title: "Credits — FANDCS",
+                brand_sub: "Free And No Data Collection Softwares",
+                back: "Home",
+                sec_intro: "credits",
+                intro_text: 'We thank all the people and services that contributed to creating all the <strong>FANDCS</strong> projects.',
+                sec_team: "contributors",
+                role_dev: "Developer",
+                role_founder: "Teacher, Web App Developer",
+                role_designer: "Designer",
+                role_designer_f: "Designer",
+                app_icon: "App Icon",
+                project_lbl: "Project",
+                p_history: "History Videos and Lessons",
+                sec_assets: "Third-Party Images",
+                ali_desc: "404 page image · Flaticon",
+                creatype_desc: "Blank page image · Flaticon",
+                sec_tools: "services",
+                claude_desc: "Help with development",
+                gemini_desc: "Help with development",
+                pages_desc: "Hosting for our websites",
+                flaticon_desc: "Image source",
+                sec_fonts: "fonts",
+                fonts_desc: "Google Fonts",
+                footer_text: "© 2026 FANDCS · Last updated: 1/11/2026"
+            }
+        };
+
+        const langSelector = document.getElementById('langSelector');
+        const langBtn = document.getElementById('langBtn');
+        const currentFlag = document.getElementById('currentFlag');
+        const currentLangCode = document.getElementById('currentLangCode');
+        const langOptions = document.querySelectorAll('.lang-option');
+
+        function getPreferredLanguage() {
+            const sysLang = (navigator.language || '').toLowerCase();
+            return sysLang.startsWith('el') ? 'el' : 'en';
+        }
+
+        function setLanguage(lang) {
+            document.documentElement.lang = lang;
+            currentFlag.innerHTML = flagsSVG[lang];
+            currentLangCode.textContent = lang.toUpperCase();
+
+            langOptions.forEach(opt => {
+                opt.classList.toggle('active', opt.getAttribute('data-lang') === lang);
+            });
+
+            document.querySelectorAll('[data-i18n]').forEach(el => {
+                const key = el.getAttribute('data-i18n');
+                if (translations[lang] && translations[lang][key]) {
+                    el.innerHTML = translations[lang][key];
+                }
+            });
+
+            document.title = translations[lang].page_title;
+        }
+
+        langBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            langSelector.classList.toggle('open');
+        });
+
+        langOptions.forEach(option => {
+            option.addEventListener('click', (e) => {
+                e.stopPropagation();
+                setLanguage(option.getAttribute('data-lang'));
+                langSelector.classList.remove('open');
+            });
+        });
+
+        document.addEventListener('click', () => langSelector.classList.remove('open'));
+
+        setLanguage(getPreferredLanguage());
+    </script>
+</body>
+</html>
